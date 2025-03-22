@@ -1,0 +1,57 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useAuth } from "@/providers/AuthProvider";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+import MainSidebar from "@/components/dashboard/MainSidebar";
+import MainHeader from "@/components/dashboard/MainHeader";
+
+export default function DashboardLayout({ children }) {
+  const { loading } = useAuth();
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Check if sidebar state is saved in localStorage
+    const savedState = localStorage.getItem("sidebarCollapsed");
+    if (savedState !== null) {
+      setIsSidebarCollapsed(savedState === "true");
+    }
+    
+    setIsMounted(true);
+  }, []);
+
+  const toggleSidebar = () => {
+    const newState = !isSidebarCollapsed;
+    setIsSidebarCollapsed(newState);
+    localStorage.setItem("sidebarCollapsed", newState.toString());
+  };
+
+  if (loading || !isMounted) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <div className="min-h-screen bg-background-light">
+      <MainSidebar 
+        isCollapsed={isSidebarCollapsed} 
+        toggleSidebar={toggleSidebar} 
+      />
+      <div className={`transition-all duration-300 ease-in-out ${
+        isSidebarCollapsed 
+          ? "lg:pl-20" 
+          : "lg:pl-64"
+      }`}>
+        <MainHeader 
+          isCollapsed={isSidebarCollapsed} 
+          toggleSidebar={toggleSidebar} 
+        />
+        <main className="pt-[70px] p-4 md:p-6 mt-8">
+          <div className="rounded-lg bg-background-card p-4 md:p-6 shadow-sm">
+            {children}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
