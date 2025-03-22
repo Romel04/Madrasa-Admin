@@ -121,7 +121,7 @@ export default function DashboardPage() {
           {greeting}, {user?.name || "Admin"}
         </h2>
         <p className="text-text-muted">
-          It's {new Date().toLocaleDateString(undefined, { 
+          It&apos;s {new Date().toLocaleDateString(undefined, { 
             weekday: 'long', 
             month: 'long', 
             day: 'numeric' 
