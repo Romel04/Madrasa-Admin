@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/AuthProvider";
+import { useLanguage } from "@/providers/LanguageProvider";
 import {
   ChevronLeft,
   ChevronRight,
@@ -31,69 +32,70 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// Menu items for sidebar
-const sidebarItems = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-    icon: Settings,
-  },
-  {
-    name: "Students",
-    href: "/students",
-    icon: FileText,
-  },
-  {
-    name: "Teachers",
-    href: "/teachers",
-    icon: Users,
-  },
-  {
-    name: "Educational department",
-    href: "/educational-department",
-    icon: Calendar,
-  },
-  {
-    name: "Administration department",
-    href: "/administration-department",
-    icon: Briefcase,
-  },
-  {
-    name: "Accounting department",
-    href: "/accounting-department",
-    icon: DollarSign,
-  },
-  {
-    name: "Boarding department",
-    href: "/boarding-department",
-    icon: Home,
-  },
-  {
-    name: "Library",
-    href: "/library",
-    icon: Book,
-  },
-  {
-    name: "Mosque",
-    href: "/mosque",
-    icon: Award,
-  },
-  {
-    name: "Helpline",
-    href: "/helpline",
-    icon: HelpCircle,
-  },
-];
-
 export default function MainSidebar({ isCollapsed, toggleSidebar }) {
   const pathname = usePathname();
   const { logout } = useAuth();
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
+
+  // Menu items for sidebar with translation keys
+  const sidebarItems = [
+    {
+      nameKey: "dashboard",
+      href: "/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      nameKey: "settings",
+      href: "/settings",
+      icon: Settings,
+    },
+    {
+      nameKey: "students",
+      href: "/students",
+      icon: FileText,
+    },
+    {
+      nameKey: "teachers",
+      href: "/teachers",
+      icon: Users,
+    },
+    {
+      nameKey: "educationalDepartment",
+      href: "/educational-department",
+      icon: Calendar,
+    },
+    {
+      nameKey: "administrationDepartment",
+      href: "/administration-department",
+      icon: Briefcase,
+    },
+    {
+      nameKey: "accountingDepartment",
+      href: "/accounting-department",
+      icon: DollarSign,
+    },
+    {
+      nameKey: "boardingDepartment",
+      href: "/boarding-department",
+      icon: Home,
+    },
+    {
+      nameKey: "library",
+      href: "/library",
+      icon: Book,
+    },
+    {
+      nameKey: "mosque",
+      href: "/mosque",
+      icon: Award,
+    },
+    {
+      nameKey: "helpline",
+      href: "/helpline",
+      icon: HelpCircle,
+    },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -128,7 +130,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                 className="h-8 w-8"
               />
               <span className="text-lg font-semibold text-white">
-                Admin Portal
+                {t('adminPortal')}
               </span>
             </Link>
           )}
@@ -152,7 +154,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
               "flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-primary-600",
               isCollapsed ? "ml-0" : "ml-2"
             )}
-            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-label={isCollapsed ? t('expandSidebar') : t('collapseSidebar')}
           >
             {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
@@ -166,7 +168,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
               pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
-              <li key={item.name}>
+              <li key={item.nameKey}>
                 <TooltipProvider delayDuration={300}>
                   <Tooltip>
                     <TooltipTrigger asChild>
@@ -186,14 +188,14 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                         )} />
 
                         {!isCollapsed && (
-                          <span className="truncate">{item.name}</span>
+                          <span className="truncate">{t(item.nameKey)}</span>
                         )}
                       </Link>
                     </TooltipTrigger>
 
                     {isCollapsed && (
                       <TooltipContent side="right">
-                        {item.name}
+                        {t(item.nameKey)}
                       </TooltipContent>
                     )}
                   </Tooltip>
@@ -222,14 +224,14 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                   )} />
                   
                   {!isCollapsed && (
-                    <span>Logout</span>
+                    <span>{t('logout')}</span>
                   )}
                 </button>
               </TooltipTrigger>
               
               {isCollapsed && (
                 <TooltipContent side="right">
-                  Logout
+                  {t('logout')}
                 </TooltipContent>
               )}
             </Tooltip>

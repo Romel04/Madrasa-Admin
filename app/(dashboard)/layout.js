@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/providers/AuthProvider";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import MainSidebar from "@/components/dashboard/MainSidebar";
-import MainHeader from "@/components/dashboard/MainHeader";
+import MainSidebar from "@/components/layout/MainSidebar";
+import MainHeader from "@/components/layout/MainHeader";
 
 export default function DashboardLayout({ children }) {
   const { loading } = useAuth();

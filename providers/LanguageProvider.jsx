@@ -1,0 +1,202 @@
+"use client";
+
+import { createContext, useContext, useState, useEffect } from "react";
+
+// Create language context
+const LanguageContext = createContext({});
+
+// Available languages
+const languages = {
+  en: "English",
+  bn: "বাংলা", // Bangla
+};
+
+// Default translations
+const translations = {
+  en: {
+    // Navigation items
+    dashboard: "Dashboard",
+    settings: "Settings",
+    students: "Students",
+    teachers: "Teachers",
+    educationalDepartment: "Educational Department",
+    administrationDepartment: "Administration Department",
+    accountingDepartment: "Accounting Department",
+    boardingDepartment: "Boarding Department",
+    library: "Library",
+    mosque: "Mosque",
+    helpline: "Helpline",
+    
+    // Common UI elements
+    search: "Search",
+    notifications: "Notifications",
+    viewAllNotifications: "View all notifications",
+    newUserRegistered: "New user registered",
+    userAccountCreated: "User account was created successfully",
+    logout: "Logout",
+    adminPortal: "Admin Portal",
+    expandSidebar: "Expand sidebar",
+    collapseSidebar: "Collapse sidebar",
+    
+    // Auth
+    login: "Login",
+    register: "Register",
+    forgotPassword: "Forgot Password",
+    email: "Email",
+    password: "Password",
+    submit: "Submit",
+    
+    // Status messages
+    loading: "Loading...",
+    successLogin: "Successfully logged in",
+    errorLogin: "Login failed",
+    successLogout: "Successfully logged out",
+
+    //settings menu
+    siteSettings: "Site Settings",
+    session: "Session",
+    section: "Section",
+    examination: "Examination",
+    class: "Class",
+    book: "Book",
+    bookAssign: "Book assign",
+    responsibility: "Responsibily",
+    donorType: "Donor type",
+    donationType: "Donation type",
+    gradeSystem: "Grade system",
+    shop: "Shop",
+    invoiceDesign: "Invoice design",
+    user: "User",
+    admissionFee: "Admission fee",
+    smsSettings: "SMS setting",
+    websiteSettings: "Website setting",
+    security: "Security",
+
+    //Dashboard
+    totalStudents: "Total Students",
+    totalCollection: "Total Collection",
+    totalExpenditure: "Total Expenditure" , 
+    totalTeachers: "Total Teachers"
+  },
+  bn: {
+    // Navigation items
+    dashboard: "ড্যাশবোর্ড",
+    settings: "সেটিংস",
+    students: "শিক্ষার্থী",
+    teachers: "শিক্ষক",
+    educationalDepartment: "শিক্ষা বিভাগ",
+    administrationDepartment: "প্রশাসন বিভাগ",
+    accountingDepartment: "হিসাব বিভাগ",
+    boardingDepartment: "বোর্ডিং বিভাগ",
+    library: "লাইব্রেরী",
+    mosque: "মসজিদ",
+    helpline: "হেল্পলাইন",
+    
+    // Common UI elements
+    search: "অনুসন্ধান",
+    notifications: "বিজ্ঞপ্তি",
+    viewAllNotifications: "সমস্ত বিজ্ঞপ্তি দেখুন",
+    newUserRegistered: "নতুন ব্যবহারকারী নিবন্ধিত হয়েছে",
+    userAccountCreated: "ব্যবহারকারীর অ্যাকাউন্ট সফলভাবে তৈরি করা হয়েছে",
+    logout: "লগআউট",
+    adminPortal: "অ্যাডমিন পোর্টাল",
+    expandSidebar: "সাইডবার প্রসারিত করুন",
+    collapseSidebar: "সাইডবার সংকুচিত করুন",
+    
+    // Auth
+    login: "লগইন",
+    register: "নিবন্ধন",
+    forgotPassword: "পাসওয়ার্ড ভুলে গেছেন",
+    email: "ইমেইল",
+    password: "পাসওয়ার্ড",
+    submit: "জমা দিন",
+    
+    // Status messages
+    loading: "লোড হচ্ছে...",
+    successLogin: "সফলভাবে লগইন হয়েছে",
+    errorLogin: "লগইন ব্যর্থ হয়েছে",
+    successLogout: "সফলভাবে লগআউট হয়েছে",
+
+    //settings menu
+    siteSettings: "সাইট সেটিংস",
+    session: "সেশন",
+    section: "সেকশন",
+    examination: "পরীক্ষা",
+    class: "ক্লাস",
+    book: "বই",
+    bookAssign: "বই এসাইন",
+    responsibility: "দায়িত্ব",
+    donorType: "দাতার ধরণ",
+    donationType: "অনুদানের ধরন",
+    gradeSystem: "গ্রেড সিস্টেম",
+    shop: "দোকান",
+    invoiceDesign: "ইনভয়েস ডিসাইন ",
+    user: "ইউজার",
+    admissionFee: "ভর্তি ফি",
+    smsSettings: "এসএমএস সেটিংস",
+    websiteSettings: "ওয়েবসাইট সেটিংস",
+    security: "নিরাপত্তা",
+
+    //Dashbaord
+    totalStudents: "মোট শিক্ষার্থী",
+    totalCollection: "সর্বমোট সংগ্রহ",
+    totalExpenditure: "সর্বমোট খরচ" , 
+    totalTeachers: "সর্বমোট শিক্ষক"
+  }
+};
+
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState("en");
+  const [currentTranslations, setCurrentTranslations] = useState(translations.en);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check for stored language preference
+    const storedLanguage = localStorage.getItem("language") || "en";
+    setLanguage(storedLanguage);
+    
+    // Load translations
+    loadTranslations(storedLanguage);
+  }, []);
+
+  const loadTranslations = async (lang) => {
+    setLoading(true);
+    try {
+      setCurrentTranslations(translations[lang] || translations.en);
+    } catch (error) {
+      console.error("Failed to load translations:", error);
+      setCurrentTranslations(translations.en);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const changeLanguage = (lang) => {
+    if (languages[lang]) {
+      setLanguage(lang);
+      localStorage.setItem("language", lang);
+      loadTranslations(lang);
+    }
+  };
+
+  // Helper function to get translated text
+  const t = (key) => {
+    return currentTranslations[key] || key;
+  };
+
+  const contextValue = {
+    language,
+    languages,
+    changeLanguage,
+    t,
+    loading,
+  };
+
+  return (
+    <LanguageContext.Provider value={contextValue}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export const useLanguage = () => useContext(LanguageContext);
