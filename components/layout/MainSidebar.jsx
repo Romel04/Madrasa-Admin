@@ -162,49 +162,49 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
 
         {/* Navigation Menu */}
         <nav className="flex-1 overflow-y-auto py-4">
-        <ul className="space-y-1 px-2">
-          {sidebarItems.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+          <ul className="space-y-1 px-2">
+            {sidebarItems.map((item) => {
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
 
-            return (
-              <li key={item.nameKey}>
-                <TooltipProvider delayDuration={300}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "flex items-center rounded-md py-2 transition-colors",
-                          isActive
-                            ? "bg-primary-700 text-white"
-                            : "text-primary-100 hover:bg-primary-600 hover:text-white",
-                          isCollapsed ? "justify-center px-2" : "px-3"
-                        )}
-                      >
-                        <item.icon className={cn(
-                          "h-5 w-5 flex-shrink-0",
-                          isCollapsed ? "mx-0" : "mr-2"
-                        )} />
+              return (
+                <li key={item.nameKey}>
+                  <TooltipProvider delayDuration={300}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "flex items-center rounded-md py-2 transition-colors",
+                            isActive
+                              ? "bg-white text-primary-700" // Active state with white background
+                              : "text-primary-100 hover:bg-primary-600 hover:text-white",
+                            isCollapsed ? "justify-center px-2" : "px-3"
+                          )}
+                        >
+                          <item.icon className={cn(
+                            "h-5 w-5 flex-shrink-0",
+                            isCollapsed ? "mx-0" : "mr-2"
+                          )} />
 
-                        {!isCollapsed && (
-                          <span className="truncate">{t(item.nameKey)}</span>
-                        )}
-                      </Link>
-                    </TooltipTrigger>
+                          {!isCollapsed && (
+                            <span className="truncate">{t(item.nameKey)}</span>
+                          )}
+                        </Link>
+                      </TooltipTrigger>
 
-                    {isCollapsed && (
-                      <TooltipContent side="right">
-                        {t(item.nameKey)}
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                </TooltipProvider>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+                      {isCollapsed && (
+                        <TooltipContent side="right">
+                          {t(item.nameKey)}
+                        </TooltipContent>
+                      )}
+                    </Tooltip>
+                  </TooltipProvider>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
         {/* Logout Button */}
         <div className="mt-auto border-t border-primary-600 px-2 py-4">

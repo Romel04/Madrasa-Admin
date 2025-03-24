@@ -14,13 +14,13 @@
     --popover: #ffffff; /* White popover */
     --popover-foreground: #333333; /* Dark text on popover */
     
-    --primary: #3498db; /* Primary blue */
+    --primary: #5f98b5; /* Primary blue */
     --primary-foreground: #ffffff; /* White text on primary */
     
-    --secondary: #2ecc71; /* Secondary green */
+    --secondary: #9ac9e1; /* Secondary green */
     --secondary-foreground: #ffffff; /* White text on secondary */
     
-    --accent: #e67e22; /* Accent orange */
+    --accent: #5eb7e5; /* Accent orange */
     --accent-foreground: #ffffff; /* White text on accent */
     
     --muted: #ecf0f1; /* Muted light gray */
