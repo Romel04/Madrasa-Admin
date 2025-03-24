@@ -65,10 +65,9 @@ module.exports = {
           '5': '#9b59b6'
         }
       },
+      
       fontFamily: {
-        sans: [
-          'var(--font-inter)'
-        ]
+        sans: ['Poppins', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

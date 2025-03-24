@@ -106,7 +106,7 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
 
         {/* Right section: Search, language switch, notifications, user menu */}
         <div className={`flex items-center gap-2 ${
-          isCollapsed ? "w-auto" : "w-[calc(100%-68%)]"
+          isCollapsed ? "w-auto" : "w-[calc(100%-65%)]"
         }`}>
           {/* Language Switch */}
           <LanguageSwitch />

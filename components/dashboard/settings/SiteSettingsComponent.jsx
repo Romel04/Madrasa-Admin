@@ -53,7 +53,7 @@ const SiteSettingsForm = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid sm:grid-cols-2 gap-4 mt-4">
           <div>
             <label htmlFor="name" className="block font-medium text-gray-700 mb-2">
               Name

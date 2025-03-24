@@ -79,7 +79,7 @@ export function EnhancedDataTable({
     };
 
     return (
-        <div>
+        <div className="p-4 md:p-6">
             {tableTitle && (
                 <div className="mb-3 sm:mb-[30px]">
                     <p className="text-[18px] font-[500] leading-[21.6px] text-blue-900">
@@ -88,16 +88,16 @@ export function EnhancedDataTable({
                 </div>
             )}
 
-            <div className="flex justify-between mb-4">
-                <div className="btn-group relative">
+            <div className="flex flex-col md:flex-row justify-between mb-4">
+                <div className="btn-group relative mb-2 md:mb-0">
                     <Button
-                        className="btn btn-secondary dropdown-toggle btn-warning"
+                        className="w-auto btn btn-secondary dropdown-toggle btn-warning"
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                     >
                         <span>Column Visibility</span>
                     </Button>
                     {dropdownOpen && (
-                        <div className="relative bg-white border border-gray-300 rounded shadow-lg z-10 flex flex-col w-full px-2">
+                        <div className="absolute bg-white border border-gray-300 rounded shadow-lg z-10 flex flex-col w-full px-2">
                             {table.getAllColumns().map((column) => (
                                 <a
                                     key={column.id}
@@ -116,7 +116,7 @@ export function EnhancedDataTable({
                         </div>
                     )}
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex flex-col sm:flex-row gap-y-2 sm:space-x-2 mb-2 sm:mb-0">
                     <Button onClick={() => handleExport('copy')}>Copy</Button>
                     <Button onClick={() => handleExport('excel')}>Export to Excel</Button>
                     <Button onClick={() => handleExport('pdf')}>Export to PDF</Button>
