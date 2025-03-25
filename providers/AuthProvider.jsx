@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
       setLoading(true);
       localStorage.removeItem("adminToken");
       setUser(null);
-      router.push("/login");
+      router.push("/");
       return { success: true };
     } catch (error) {
       console.error("Logout error:", error);

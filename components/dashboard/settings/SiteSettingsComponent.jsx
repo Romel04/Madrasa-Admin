@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";  // Import useRouter for navigation
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,14 +19,19 @@ const SiteSettingsForm = () => {
     mapLocation: "",
   });
 
-  const router = useRouter();  // Initialize useRouter to navigate
+  const router = useRouter(); // Initialize useRouter to navigate
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e, field) => {
-    setFormData({ ...formData, [field]: e.target.files[0] });
+    const file = e.target.files[0];
+    setFormData({ ...formData, [field]: file });
+  };
+
+  const handleRemoveFile = (field) => {
+    setFormData({ ...formData, [field]: null });
   };
 
   const handleSubmit = (e) => {
@@ -48,12 +53,10 @@ const SiteSettingsForm = () => {
             <ArrowBigLeft size={40} />
           </p>
         </div>
-        <div className="text-[24px] font-[700] ">
-          Site Settings
-        </div>
+        <div className="text-[24px] font-[700] ">Site Settings</div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="grid sm:grid-cols-2 gap-4 mt-4">
+      <div className="grid sm:grid-cols-2 gap-4 mt-4">
           <div>
             <label htmlFor="name" className="block font-medium text-gray-700 mb-2">
               Name
@@ -113,6 +116,14 @@ const SiteSettingsForm = () => {
               onChange={(e) => handleFileChange(e, 'logo')}
               className="border border-gray-300 rounded-md p-2"
             />
+            {formData.logo && (
+              <div className="flex items-center mt-2">
+                <img src={URL.createObjectURL(formData.logo)} alt="Logo Preview" className="h-16 w-16 object-cover mr-2" />
+                <Button onClick={() => handleRemoveFile('logo')} className="bg-red-500 text-white hover:bg-red-700">
+                  Remove
+                </Button>
+              </div>
+            )}
           </div>
           <div>
             <label htmlFor="favicon" className="block font-medium text-gray-700 mb-2">
@@ -125,7 +136,16 @@ const SiteSettingsForm = () => {
               onChange={(e) => handleFileChange(e, 'favicon')}
               className="border border-gray-300 rounded-md p-2"
             />
+            {formData.favicon && (
+              <div className="flex items-center mt-2">
+                <img src={URL.createObjectURL(formData.favicon)} alt="Favicon Preview" className="h-16 w-16 object-cover mr-2" />
+                <Button onClick={() => handleRemoveFile('favicon')} className="text-red-500">
+                  Remove
+                </Button>
+              </div>
+            )}
           </div>
+          {/* Other input fields remain unchanged */}
           <div>
             <label htmlFor="address" className="block font-medium text-gray-700 mb-2">
               Address
@@ -153,7 +173,6 @@ const SiteSettingsForm = () => {
         </div>
 
         <div className="mt-4 text-right flex space-x-4">
-
           {/* Update Button */}
           <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
             Update
@@ -161,7 +180,6 @@ const SiteSettingsForm = () => {
         </div>
       </form>
     </div>
-
   );
 };
 

@@ -94,7 +94,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, sectionName }) => {
     );
 };
 
-export default function ExaminationComponent() {
+export default function ClassComponent() {
     const [viewMode, setViewMode] = useState(null);
     const [selectedSessionItem, setSelectedSessionItem] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -103,90 +103,22 @@ export default function ExaminationComponent() {
 
     // Dummy data for the table
     const data = [
-        {
-            id: 1,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 2,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 3,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 4,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 5,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 6,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 7,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 8,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 9,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 10,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 11,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 12,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 13,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 14,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 15,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 16,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 17,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 18,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
-        {
-            id: 19,
-            section_name: "মাসিক পরিক্ষা",
-        },
-        {
-            id: 20,
-            section_name: "১ম সাময়িক পরীক্ষা",
-        },
-        {
-            id: 21,
-            section_name: "২য় সাময়িক পরীক্ষা",
-        },
+       
+    { id: 1, section_name: "নুরানী তৃতীয় শ্রেনী", },
+    { id: 2, section_name: "নুরানী দ্বিতীয় শ্রেনী",},
+    { id: 3, section_name: "নুরানী প্রথম শ্রেনী", },
+    { id: 4, section_name: "নুরানী নার্সারী শ্রেনী",  },
+    { id: 5, section_name: "নুরানী প্লে শ্রেনী", },
+    { id: 6, section_name: "শরহে বেকায়া ১০ম", },
+    { id: 7, section_name: "কাফিয়া ৯ম",  },
+    { id: 8, section_name: "হেদায়েতুন্নাহু ৮ম",  },
+    { id: 9, section_name: "নাহবেমীর ৭ম", },
+    { id: 10, section_name: "মিজান ৬ষ্ঠ", },
+    { id: 11, section_name: "তাইসীর ৫ম", },
+    { id: 12, section_name: "ইবতেদায়িয়াহঃ ৪র্থ", },
+    { id: 13, section_name: "হিফজ",},
+    { id: 14, section_name: "নাযেরা", },
+    { id: 15, section_name: "মক্তব", },
     ];
 
     const columns = [
@@ -272,7 +204,7 @@ export default function ExaminationComponent() {
                                 </p>
                             </div>
                             <div className="text-[24px] font-[700] ">
-                                Examination
+                                Class
                             </div>
                         </div>
 
