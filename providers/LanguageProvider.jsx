@@ -53,9 +53,10 @@ const translations = {
     successLogout: "Successfully logged out",
 
     //settings menu
-    siteSettings: "Site Settings",
+    academicSettings: "Academic Settings",
     session: "Session",
-    section: "Section",
+    department: "Department",
+    subject: "Subject",
     examination: "Examination",
     class: "Class",
     book: "Book",
@@ -63,7 +64,7 @@ const translations = {
     responsibility: "Responsibily",
     donorType: "Donor type",
     donationType: "Donation type",
-    gradeSystem: "Grade system",
+    grade: "Grade system",
     shop: "Shop",
     invoiceDesign: "Invoice design",
     user: "User",
@@ -118,9 +119,10 @@ const translations = {
     successLogout: "সফলভাবে লগআউট হয়েছে",
 
     //settings menu
-    siteSettings: "সাইট সেটিংস",
+    academicSettings: "একাডেমিক সেটিংস",
     session: "সেশন",
-    section: "সেকশন",
+    department: "বিভাগ",
+    subject: "বিষয়",
     examination: "পরীক্ষা",
     class: "ক্লাস",
     book: "বই",
@@ -128,7 +130,7 @@ const translations = {
     responsibility: "দায়িত্ব",
     donorType: "দাতার ধরণ",
     donationType: "অনুদানের ধরন",
-    gradeSystem: "গ্রেড সিস্টেম",
+    grade: "গ্রেড সিস্টেম",
     shop: "দোকান",
     invoiceDesign: "ইনভয়েস ডিসাইন ",
     user: "ইউজার",

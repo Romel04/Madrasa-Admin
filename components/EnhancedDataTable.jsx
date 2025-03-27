@@ -20,7 +20,7 @@ import * as React from "react";
 import { DataTablePagination } from "./DataTablePagination";
 import { InputSearch } from "./ui/input-search";
 import { Button } from "./ui/button";
-import { CheckCircle, XCircle } from "lucide-react"; // Importing icons for visibility
+import { MultiSelect } from "@/components/ui/multi-select";
 
 export function EnhancedDataTable({
     columns,
@@ -34,7 +34,6 @@ export function EnhancedDataTable({
         Object.fromEntries(columns.map(column => [column.id, true])) // Initialize all columns as visible
     );
     const [rowSelection, setRowSelection] = React.useState({});
-    const [dropdownOpen, setDropdownOpen] = React.useState(false);
 
     const filteredData = React.useMemo(() => {
         return data.filter((row) => {
@@ -71,15 +70,21 @@ export function EnhancedDataTable({
         console.log(`Exporting to ${format}`);
     };
 
-    const toggleColumnVisibility = (columnId) => {
-        setColumnVisibility((prev) => ({
-            ...prev,
-            [columnId]: !prev[columnId],
-        }));
+    const handleColumnVisibilityChange = (selectedColumns) => {
+        const newVisibility = {};
+        columns.forEach(column => {
+            newVisibility[column.id] = selectedColumns.includes(column.id);
+        });
+        setColumnVisibility(newVisibility);
     };
 
+    const columnOptions = columns.map(column => ({
+        label: column.header,
+        value: column.id,
+    }));
+
     return (
-        <div className="p-4 md:p-6">
+        <div className="p-4 sm:p-6 sm:px-0">
             {tableTitle && (
                 <div className="mb-3 sm:mb-[30px]">
                     <p className="text-[18px] font-[500] leading-[21.6px] text-blue-900">
@@ -89,32 +94,20 @@ export function EnhancedDataTable({
             )}
 
             <div className="flex flex-col md:flex-row justify-between mb-4">
-                <div className="btn-group relative mb-2 md:mb-0">
-                    <Button
-                        className="w-auto btn btn-secondary dropdown-toggle btn-warning"
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                    >
-                        <span>Column Visibility</span>
-                    </Button>
-                    {dropdownOpen && (
-                        <div className="absolute bg-white border border-gray-300 rounded shadow-lg z-10 flex flex-col w-full px-2">
-                            {table.getAllColumns().map((column) => (
-                                <a
-                                    key={column.id}
-                                    className={`cursor-pointer dropdown-item buttons-columnVisibility ${column.getIsVisible() ? "active" : ""}`}
-                                    onClick={() => toggleColumnVisibility(column.id)}
-                                    role="menuitem"
-                                >
-                                    {column.getIsVisible() ? (
-                                        <CheckCircle className="inline-block mr-1 text-green-500" />
-                                    ) : (
-                                        <XCircle className="inline-block mr-1 text-red-500" />
-                                    )}
-                                    {column.id}
-                                </a>
-                            ))}
-                        </div>
-                    )}
+                <div className="mb-2 md:mb-0">
+                    <MultiSelect
+                        id="column_visibility"
+                        name="column_visibility"
+                        options={columnOptions}
+                        value={Object.entries(columnVisibility)
+                            .filter(([key, visible]) => visible && key !== 'actions')
+                            .map(([key]) => key)
+                        }
+                        onValueChange={handleColumnVisibilityChange}
+                        className="w-full sm:w-[200px]" // Reduced width
+                        placeholder="Select columns"
+                        maxCount={1} // Limit badges shown
+                    />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-y-2 sm:space-x-2 mb-2 sm:mb-0">
                     <Button onClick={() => handleExport('copy')}>Copy</Button>

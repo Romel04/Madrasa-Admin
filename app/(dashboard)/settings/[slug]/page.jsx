@@ -19,7 +19,7 @@ const SettingsDetailPage = () => {
   // Create a function to generate the appropriate title based on the slug
   const getTitle = (slug) => {
     const titles = {
-      'site-settings': 'siteSettings',
+      'academic-settings': 'siteSettings',
       'session': 'session',
       'section': 'section',
       'examination': 'examination',

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowBigLeft } from "lucide-react";
 
-const SiteSettingsForm = () => {
+const AcademicSettingsComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
     webAddress: "",
@@ -183,4 +183,4 @@ const SiteSettingsForm = () => {
   );
 };
 
-export default SiteSettingsForm;
+export default AcademicSettingsComponent;

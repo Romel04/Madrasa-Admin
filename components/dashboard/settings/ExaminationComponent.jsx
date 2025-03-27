@@ -192,12 +192,14 @@ export default function ExaminationComponent() {
     const columns = [
         {
             accessorKey: "sn",
+            id: "sn" ,
             header: "SN",
             size: 50,
             cell: ({ row }) => row.index + 1,
         },
         {
             accessorKey: "section_name",
+            id: "section_name" ,
             header: "Exam",
             size: 200,
         },

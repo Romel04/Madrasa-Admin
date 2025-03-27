@@ -9,14 +9,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { MultiSelect } from "@/components/ui/multi-select";
 
 // Session Modal Component
 const SessionModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
     const [formData, setFormData] = useState({
-        section_name: initialData?.section_name || '',
-        start_date: initialData?.start_date || '',
-        end_date: initialData?.end_date || '',
-        status: initialData?.status || 'Active',
+        class_name: initialData?.class_name || '',
+        subject_names: initialData?.subject_names || [],
+        departments: initialData?.departments || [],
     });
 
     const handleInputChange = (e) => {
@@ -27,8 +27,15 @@ const SessionModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
         }));
     };
 
+    const handleSelectChange = (name, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     const handleSubmit = () => {
-        if (!formData.section_name || !formData.start_date || !formData.end_date) {
+        if (!formData.class_name || formData.subject_names.length === 0 || formData.departments.length === 0) {
             toast.error('Please fill in all required fields');
             return;
         }
@@ -43,23 +50,57 @@ const SessionModal = ({ isOpen, onClose, mode, initialData, onSubmit }) => {
     };
 
     return (
-
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[500px] w-[95%] sm:w-full rounded-lg">
                 <DialogHeader>
                     <DialogTitle>{mode === "create" ? "Create New Section" : "Edit Section"}</DialogTitle>
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-6 items-center gap-2">
-                        <Label htmlFor="title" className="text-right">Name <span className="text-red-500">*</span></Label>
+                    <div className="grid grid-cols-8 items-center gap-2">
+                        <Label htmlFor="class_name" className="col-span-4 pl-1">Class Name <span className="text-red-500">*</span></Label>
                         <Input
-                            id="title"
-                            name="title"
-                            value={formData.title}
+                            id="class_name"
+                            name="class_name"
+                            value={formData.class_name}
                             onChange={handleInputChange}
-                            className="col-span-5"
-                            placeholder="e.g., মাসিক পরিক্ষা"
+                            className="col-span-8 shadow-md"
+                            placeholder="e.g., One"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-8 items-center gap-2">
+                        <Label htmlFor="subject_names" className="col-span-4 pl-1">Subject Name <span className="text-red-500">*</span></Label>
+                        <MultiSelect
+                            id="subject_names"
+                            name="subject_names"
+                            options={[
+                                { label: "Bangla", value: "Bangla" },
+                                { label: "English", value: "English" },
+                                { label: "Math", value: "Math" },
+                                { label: "Social", value: "Social" },
+                                { label: "Science", value: "Science" },
+                            ]}
+                            value={formData.subject_names}
+                            onValueChange={(value) => handleSelectChange('subject_names', value)}
+                            className="col-span-8"
+                            placeholder="Select subjects"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-4 items-center gap-2">
+                        <Label htmlFor="departments"  className="col-span-4 pl-1">Department <span className="text-red-500">*</span></Label>
+                        <MultiSelect
+                            id="departments"
+                            name="departments"
+                            options={[
+                                { label: "Morning shift", value: "Morning shift" },
+                                { label: "Day shift", value: "Day shift" },
+                            ]}
+                            value={formData.departments}
+                            onValueChange={(value) => handleSelectChange('departments', value)}
+                            className="col-span-8"
+                            placeholder="Select departments"
                         />
                     </div>
                 </div>
@@ -103,39 +144,41 @@ export default function ClassComponent() {
 
     // Dummy data for the table
     const data = [
-       
-    { id: 1, section_name: "নুরানী তৃতীয় শ্রেনী", },
-    { id: 2, section_name: "নুরানী দ্বিতীয় শ্রেনী",},
-    { id: 3, section_name: "নুরানী প্রথম শ্রেনী", },
-    { id: 4, section_name: "নুরানী নার্সারী শ্রেনী",  },
-    { id: 5, section_name: "নুরানী প্লে শ্রেনী", },
-    { id: 6, section_name: "শরহে বেকায়া ১০ম", },
-    { id: 7, section_name: "কাফিয়া ৯ম",  },
-    { id: 8, section_name: "হেদায়েতুন্নাহু ৮ম",  },
-    { id: 9, section_name: "নাহবেমীর ৭ম", },
-    { id: 10, section_name: "মিজান ৬ষ্ঠ", },
-    { id: 11, section_name: "তাইসীর ৫ম", },
-    { id: 12, section_name: "ইবতেদায়িয়াহঃ ৪র্থ", },
-    { id: 13, section_name: "হিফজ",},
-    { id: 14, section_name: "নাযেরা", },
-    { id: 15, section_name: "মক্তব", },
+        { id: 1, class_name: "One", subject_names: "Bangla, English, Math, Social, Science", departments: "Morning shift, Day shift" },
+        { id: 2, class_name: "Two", subject_names: "Bangla, English, Math, Social, Science", departments: "Morning shift, Day shift" },
+        { id: 3, class_name: "Three", subject_names: "Bangla, English, Math, Social, Science", departments: "Morning shift, Day shift" },
     ];
 
     const columns = [
         {
+            id: "sn", // Explicitly set the id
             accessorKey: "sn",
             header: "SN",
             size: 50,
             cell: ({ row }) => row.index + 1,
         },
         {
-            accessorKey: "section_name",
-            header: "Exam",
+            id: "class_name", // Ensure id matches accessorKey
+            accessorKey: "class_name",
+            header: "Class Name",
+            size: 150,
+        },
+        {
+            id: "subject_names", // Explicitly set id
+            accessorKey: "subject_names",
+            header: "Subject Name",
             size: 200,
         },
         {
+            id: "departments", // Explicitly set id
+            accessorKey: "departments",
+            header: "Department",
+            size: 200,
+        },
+        {
+            id: "actions", // Explicitly set id for action column
             header: "Action",
-            id: "actions",
+            size: 200,
             cell: ({ row }) => (
                 <div className="flex gap-x-4">
                     <Button
@@ -150,7 +193,7 @@ export default function ClassComponent() {
                     >
                         <Edit size={16} className="mr-2" /> Edit
                     </Button>
-
+    
                     <Button
                         variant="ghost"
                         size="sm"
@@ -168,7 +211,7 @@ export default function ClassComponent() {
     ];
 
     const handleDelete = () => {
-        toast.success(`Deleted exam "${selectedSessionItem.section_name}" successfully!`);
+        toast.success(`Deleted exam "${selectedSessionItem.class_name}" successfully!`);
         setIsDeleteModalOpen(false);
         // Logic to remove the item from data would go here
         setSelectedSessionItem(null);
@@ -177,10 +220,10 @@ export default function ClassComponent() {
     const handleSessionSubmit = (sessionData) => {
         if (viewMode === 'create') {
             // Logic to add new session
-            toast.success(`Created exam "${sessionData.section_name}" successfully!`);
+            toast.success(`Created exam "${sessionData.class_name}" successfully!`);
         } else {
             // Logic to update existing session
-            toast.success(`Updated exam "${sessionData.section_name}" successfully!`);
+            toast.success(`Updated exam "${sessionData.class_name}" successfully!`);
         }
         setIsSessionModalOpen(false);
         setSelectedSessionItem(null);
@@ -250,7 +293,7 @@ export default function ClassComponent() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleDelete}
-                sectionName={selectedSessionItem?.section_name}
+                sectionName={selectedSessionItem?.class_name}
             />
         </div>
     );

@@ -65,10 +65,10 @@ const SessionModal = ({
           </DialogTitle>
         </DialogHeader>
         
-        <div className="grid gap-4 py-4">
-          {/* Session Name Input */}
-          <div className="grid grid-cols-6 items-center gap-4">
-            <Label htmlFor="session_name" className="text-right">
+
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-8 items-center gap-2">
+                        <Label htmlFor="department_name" className="col-span-4 pl-1">
               Title <span className='text-red-500'>*</span>
             </Label>
             <Input
@@ -76,7 +76,7 @@ const SessionModal = ({
               name="session_name"
               value={formData.session_name}
               onChange={handleInputChange}
-              className="col-span-5"
+              className="col-span-8"
               placeholder="e.g., Spring 2025"
             />
           </div>
@@ -265,12 +265,14 @@ export default function SessionSettingsComponent() {
   const columns = [
     {
       accessorKey: "sn",
+      id: "sn",
       header: "SN",
       size: 50,
       cell: ({ row }) => row.index + 1, // Serial Number based on row index
     },
     {
       accessorKey: "session_name",
+      id: "session_name",
       header: "Session",
       size: 200,
     },
