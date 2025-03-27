@@ -82,7 +82,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, sectionName }) => {
                     <DialogTitle>Confirm Delete</DialogTitle>
                 </DialogHeader>
                 <div className="py-4">
-                    <p>Are you sure you want to delete the exam "{sectionName}"?</p>
+                    <p>Are you sure you want to delete the exam &quot;{sectionName}&quot;?</p>
                 </div>
 
                 <DialogFooter>

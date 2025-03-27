@@ -111,7 +111,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, sessionName }) => {
           <DialogTitle>Confirm Delete</DialogTitle>
         </DialogHeader>
         <div className="py-4">
-          <p>Are you sure you want to delete the session "{sessionName}"?</p>
+          <p>Are you sure you want to delete the session &quot;{sessionName}&quot;?</p>
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
