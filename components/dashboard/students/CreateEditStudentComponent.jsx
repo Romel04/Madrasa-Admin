@@ -410,13 +410,13 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                     <h2 className="text-lg font-bold">Additional Information</h2>
                     <div className="grid gap-4">
                         <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="guardian_address">অভিভাবকের ঠিকানা/Gurdian's Address</Label>
+                            <Label htmlFor="guardian_address">অভিভাবকের ঠিকানা/Gurdian&apos;s Address</Label>
                             <Input
                                 id="guardian_address"
                                 name="guardian_address"
                                 value={formData.guardian_address}
                                 onChange={handleInputChange}
-                                placeholder="Enter Guardian's Address"
+                                placeholder="Enter Guardian&apos;s Address"
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
