@@ -134,7 +134,7 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 name="father_name"
                                 value={formData.father_name}
                                 onChange={handleInputChange}
-                                placeholder="Enter Father's Name"
+                                placeholder="Enter Father&apos;s Name"
                                 required
                             />
                         </div>
@@ -145,7 +145,7 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 name="mother_name"
                                 value={formData.mother_name}
                                 onChange={handleInputChange}
-                                placeholder="Enter Mother's Name"
+                                placeholder="Enter Mother&apos;s Name"
                                 required
                             />
                         </div>
