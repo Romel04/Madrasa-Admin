@@ -73,7 +73,7 @@ export default function DashboardComponent() {
     // Fetch prayer times
     const fetchPrayerTimes = async () => {
       try {
-        const response = await fetch("http://api.aladhan.com/v1/timings?latitude=23.7483066&longitude=90.4323979&method=1");
+        const response = await fetch("https://api.aladhan.com/v1/timings?latitude=23.7483066&longitude=90.4323979&method=1");
         const data = await response.json();
         setPrayerTimes(data.data.timings);
       } catch (error) {
