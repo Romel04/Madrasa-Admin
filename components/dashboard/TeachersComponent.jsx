@@ -1,37 +1,28 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { useRouter } from "next/navigation";
-import {
-  Settings,
-  Bell,
-  Lock,
-  FileText,
-  Briefcase,
-  Book,
-  Bookmark,
-  Users,
-  DollarSign,
-  Award,
-  Grid,
-  Printer,
-  UserPlus,
-  CreditCard,
-  MessageCircle,
-} from "lucide-react";
+import { UserPlus } from "lucide-react";
 
-const studentsCards = [
-  { name: "studentsList", banglaName: "ব্যবহারকারী", icon: UserPlus, gradient: "bg-gradient-to-r from-rose-500 to-red-500", slug: "students-list" },
+const teachersCards = [
+  { 
+    name: "teachersList", 
+    banglaName: "শিক্ষক", 
+    icon: UserPlus, 
+    gradient: "bg-gradient-to-r from-blue-500 to-green-500", 
+    slug: "teachers-list" 
+  },
+  // Add more cards here if needed
 ];
 
-export default function StudentsComponent() {
+export default function TeachersComponent() {
   const { t } = useLanguage();
   const router = useRouter();
 
   const handleCardClick = (slug) => {
-    router.push(`students/${slug}`);
+    router.push(`teachers/${slug}`);
   };
 
   return (
@@ -39,7 +30,7 @@ export default function StudentsComponent() {
       <Tabs>
         <TabsContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 sm:mt-0">
-            {studentsCards.map((card, index) => (
+            {teachersCards.map((card, index) => (
               <Card
                 key={index}
                 className={`${card.gradient} backdrop-blur-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer`}

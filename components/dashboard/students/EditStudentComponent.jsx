@@ -1,33 +1,32 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import CreateEditStudentComponent from './CreateEditStudentComponent'; // Import the shared component
-import { useRouter } from 'next/navigation';
+import CreateEditStudentComponent from './CreateEditStudentComponent';
 
-const EditStudent = () => {
-    const router = useRouter();
+const EditStudentComponent = () => {
     const [studentData, setStudentData] = useState(null);
 
     useEffect(() => {
         const fetchStudentData = async () => {
             const id = new URLSearchParams(window.location.search).get('id');
-            // Fetch student data from your API or state management
-            const response = await fetch(`/api/students/${id}`);
-            const data = await response.json();
-            setStudentData(data);
+            try {
+                // Replace with your actual API endpoint
+                const response = await fetch(`/api/students/${id}`);
+                const data = await response.json();
+                setStudentData(data);
+            } catch (error) {
+                console.error('Failed to fetch student data', error);
+                // Handle error (e.g., show toast, redirect)
+            }
         };
 
         fetchStudentData();
     }, []);
 
-    const handleClose = () => {
-        router.push('/students/students-list'); // Redirect after saving
-    };
-
     return (
-        studentData && (
-            <CreateEditStudentComponent isOpen={true} onClose={handleClose} initialData={studentData} />
-        )
+        <div>
+            {studentData && <CreateEditStudentComponent initialData={studentData} />}
+        </div>
     );
 };
 
-export default EditStudent;
+export default EditStudentComponent;

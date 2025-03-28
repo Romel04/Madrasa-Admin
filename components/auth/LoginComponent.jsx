@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import Image from "next/image";
 
 export default function LoginComponent() {
   const [formData, setFormData] = useState({
@@ -49,21 +48,18 @@ export default function LoginComponent() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div 
+      className="flex min-h-screen items-center justify-center p-4"
+      style={{ 
+        backgroundImage: "url('/assets/loginBg.avif')", // Replace with your image path
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}
+    >
+      <Card className="w-full max-w-md shadow-lg bg-white bg-opacity-30 backdrop-blur-md rounded-lg border border-white border-opacity-20">
         <CardHeader className="space-y-4 text-center">
-          {/* <div className="mx-auto mb-4 flex justify-center">
-            <Image
-              src="/assets/images/logo.png"
-              alt="Logo"
-              width={180}
-              height={60}
-              priority
-              className="h-auto"
-            />
-          </div> */}
           <CardTitle className="text-2xl font-bold text-primary">Admin Login</CardTitle>
-          <CardDescription>
+          <CardDescription className=" text-white">
             Enter your credentials to access the admin dashboard
           </CardDescription>
         </CardHeader>
@@ -76,7 +72,7 @@ export default function LoginComponent() {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className=" text-white">Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -86,12 +82,12 @@ export default function LoginComponent() {
                 onChange={handleChange}
                 required
                 autoComplete="email"
-                className="w-full"
+                className="w-full text-white"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className=" text-white">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -102,7 +98,7 @@ export default function LoginComponent() {
                   onChange={handleChange}
                   required
                   autoComplete="current-password"
-                  className="w-full pr-10"
+                  className="w-full pr-10 text-white"
                 />
                 <button
                   type="button"

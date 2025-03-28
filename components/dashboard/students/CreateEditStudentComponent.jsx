@@ -1,28 +1,29 @@
 "use client";
 import React, { useState } from 'react';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select } from "@/components/ui/select"; // Assuming a custom Select component
-import { Toaster, toast } from "sonner"; // Import Sonner for notifications
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
+import { Toaster, toast } from "sonner";
 import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { useRouter } from 'next/navigation';
 
-const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
+const CreateEditStudentComponent = ({ initialData = {} }) => {
     const [formData, setFormData] = useState({
         form_no: initialData?.form_no || '',
-        date: initialData?.date || '',
+        date: initialData?.date ? new Date(initialData.date) : null,
         admission_type: initialData?.admission_type || '',
         name: initialData?.name || '',
         father_name: initialData?.father_name || '',
         mother_name: initialData?.mother_name || '',
-        dob: initialData?.dob || '',
+        dob: initialData?.dob ? new Date(initialData.dob) : null,
         birth_certificate: initialData?.birth_certificate || '',
         previous_madrasha: initialData?.previous_madrasha || '',
         previous_class: initialData?.previous_class || '',
@@ -48,8 +49,21 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
         other_documents: null,
     });
 
+    const router = useRouter();
+
+    const handleCancel = () => {
+        router.back();
+    }
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSelectChange = (name, value) => {
         setFormData(prev => ({
             ...prev,
             [name]: value
@@ -60,29 +74,47 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
         const { name, files } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: files
+            [name]: files[0]
         }));
     };
 
-    const handleSubmit = () => {
-        // Add validation logic here if needed
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Basic validation
+        const requiredFields = [
+            'form_no', 'date', 'admission_type', 'name',
+            'father_name', 'mother_name', 'birth_certificate',
+            'student_type', 'session', 'class', 'gender', 'mobile',
+            'admission_fee', 'admission_fee_receive'
+        ];
+
+        const missingFields = requiredFields.filter(field => !formData[field]);
+
+        if (missingFields.length > 0) {
+            toast.error(`Please fill in all required fields: ${missingFields.join(', ')}`);
+            return;
+        }
+
+        // TODO: Add actual save logic here
+        console.log('Form Data:', formData);
         toast.success('Student data saved successfully!');
-        onClose(); // Call onClose to redirect after saving
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle>{initialData ? 'Edit Student' : 'Create Student'}</DialogTitle>
-                </DialogHeader>
+        <div className="container mx-auto p-6">
+            <Toaster />
+            <h1 className="text-3xl font-bold mb-6">
+                {initialData?.id ? 'Edit Student' : 'Create Student'}
+            </h1>
 
-                <div className="grid gap-4 py-4">
-                    {/* General Information */}
-                    <h2 className="text-lg font-bold">General Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="form_no">ফর্ম নং/Form No*</Label>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* General Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">General Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="form_no">Form No<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="form_no"
                                 name="form_no"
@@ -92,32 +124,33 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="date">তারিখ/Date*</Label>
+                        <div className='flex flex-col'>
+                            <Label htmlFor="date" className="mb-2">Date<span className='text-red-500'>*</span></Label>
                             <DatePicker
-                                id="date"
-                                name="date"
                                 selected={formData.date}
-                                onChange={(date) => setFormData({ ...formData, date })}
+                                onChange={(date) => setFormData(prev => ({ ...prev, date }))}
+                                className="w-full border rounded-md p-2 py-[6px]"
+                                placeholderText="Select Date"
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="admission_type">ভর্তির ধরন/Admission Type*</Label>
+                        <div>
+                            <Label htmlFor="admission_type">Admission Type<span className='text-red-500'>*</span></Label>
                             <Select
-                                id="admission_type"
-                                name="admission_type"
                                 value={formData.admission_type}
-                                onChange={handleInputChange}
-                                required
+                                onValueChange={(value) => handleSelectChange('admission_type', value)}
                             >
-                                <option value="">Select Admission Type</option>
-                                <option value="new">New</option>
-                                <option value="transfer">Transfer</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Admission Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="new">New</SelectItem>
+                                    <SelectItem value="transfer">Transfer</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="name">নাম/Student Name*</Label>
+                        <div>
+                            <Label htmlFor="name">Student Name<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="name"
                                 name="name"
@@ -127,39 +160,39 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="father_name">পিতা/Father Name*</Label>
+                        <div>
+                            <Label htmlFor="father_name">Father Name<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="father_name"
                                 name="father_name"
                                 value={formData.father_name}
                                 onChange={handleInputChange}
-                                placeholder="Enter Father&apos;s Name"
+                                placeholder="Enter Father's Name"
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="mother_name">মাতা/Mother Name*</Label>
+                        <div>
+                            <Label htmlFor="mother_name">Mother Name<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="mother_name"
                                 name="mother_name"
                                 value={formData.mother_name}
                                 onChange={handleInputChange}
-                                placeholder="Enter Mother&apos;s Name"
+                                placeholder="Enter Mother's Name"
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="dob">জন্ম তারিখ/Date Of Birth</Label>
+                        <div>
+                            <Label htmlFor="dob">Date of Birth</Label>
                             <DatePicker
-                                id="dob"
-                                name="dob"
                                 selected={formData.dob}
-                                onChange={(date) => setFormData({ ...formData, dob: date })}
+                                onChange={(date) => setFormData(prev => ({ ...prev, dob: date }))}
+                                className="w-full border rounded-md p-2"
+                                placeholderText="Select Date of Birth"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="birth_certificate">জন্ম নিবন্ধন/Birth Certificate*</Label>
+                        <div>
+                            <Label htmlFor="birth_certificate">Birth Certificate<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="birth_certificate"
                                 name="birth_certificate"
@@ -169,33 +202,15 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="previous_madrasha">পূর্ববর্তী মাদ্রাসার নাম/Previous Madrasha</Label>
-                            <Input
-                                id="previous_madrasha"
-                                name="previous_madrasha"
-                                value={formData.previous_madrasha}
-                                onChange={handleInputChange}
-                                placeholder="Enter Previous Madrasha Name"
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="previous_class">পূর্ববর্তী ক্লাসের নাম/Previous Class</Label>
-                            <Input
-                                id="previous_class"
-                                name="previous_class"
-                                value={formData.previous_class}
-                                onChange={handleInputChange}
-                                placeholder="Enter Previous Class Name"
-                            />
-                        </div>
                     </div>
+                </div>
 
-                    {/* Academic Information */}
-                    <h2 className="text-lg font-bold">Academic Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="new_student_result">নতুন ছাত্রের রেজাল্ট/New Student Result</Label>
+                {/* Academic Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="new_student_result">New Student Result</Label>
                             <Input
                                 id="new_student_result"
                                 name="new_student_result"
@@ -204,82 +219,90 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter New Student Result"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="student_type">ছাত্রের ধরন/Student Type*</Label>
+                        <div>
+                            <Label htmlFor="student_type">Student Type<span className='text-red-500'>*</span></Label>
                             <Select
-                                id="student_type"
-                                name="student_type"
                                 value={formData.student_type}
-                                onChange={handleInputChange}
-                                required
+                                onValueChange={(value) => handleSelectChange('student_type', value)}
                             >
-                                <option value="">Select Student Type</option>
-                                <option value="regular">Regular</option>
-                                <option value="irregular">Irregular</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Student Type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="regular">Regular</SelectItem>
+                                    <SelectItem value="irregular">Irregular</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="session">ছাত্রের সেশন/Session*</Label>
+                        <div>
+                            <Label htmlFor="session">Session<span className='text-red-500'>*</span></Label>
                             <Select
-                                id="session"
-                                name="session"
                                 value={formData.session}
-                                onChange={handleInputChange}
-                                required
+                                onValueChange={(value) => handleSelectChange('session', value)}
                             >
-                                <option value="">Select Session</option>
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Session" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="2023">2023</SelectItem>
+                                    <SelectItem value="2024">2024</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="class">ক্লাস/Class*</Label>
+                        <div>
+                            <Label htmlFor="class">Class<span className='text-red-500'>*</span></Label>
                             <Select
-                                id="class"
-                                name="class"
                                 value={formData.class}
-                                onChange={handleInputChange}
-                                required
+                                onValueChange={(value) => handleSelectChange('class', value)}
                             >
-                                <option value="">Select Class</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Class" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="10">10</SelectItem>
+                                    <SelectItem value="11">11</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="gender">ছাত্রের লিঙ্গ/Student Gender*</Label>
+                        <div>
+                            <Label htmlFor="gender">Gender<span className='text-red-500'>*</span></Label>
                             <Select
-                                id="gender"
-                                name="gender"
                                 value={formData.gender}
-                                onChange={handleInputChange}
-                                required
+                                onValueChange={(value) => handleSelectChange('gender', value)}
                             >
-                                <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Gender" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="male">Male</SelectItem>
+                                    <SelectItem value="female">Female</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="orphan">এতিম</Label>
+                        <div>
+                            <Label htmlFor="orphan">Orphan Status</Label>
                             <Select
-                                id="orphan"
-                                name="orphan"
                                 value={formData.orphan}
-                                onChange={handleInputChange}
+                                onValueChange={(value) => handleSelectChange('orphan', value)}
                             >
-                                <option value="">Select</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select Orphan Status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="yes">Yes</SelectItem>
+                                    <SelectItem value="no">No</SelectItem>
+                                </SelectContent>
                             </Select>
                         </div>
                     </div>
+                </div>
 
-                    {/* Address Information */}
-                    <h2 className="text-lg font-bold">Address Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="village">গ্রাম/Village</Label>
+                {/* Address Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Address Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="village">Village</Label>
                             <Input
                                 id="village"
                                 name="village"
@@ -288,8 +311,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Village Name"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="post_office">ডাকঘর/Post Office</Label>
+                        <div>
+                            <Label htmlFor="post_office">Post Office</Label>
                             <Input
                                 id="post_office"
                                 name="post_office"
@@ -298,8 +321,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Post Office Name"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="police_station">থানা/Police Station</Label>
+                        <div>
+                            <Label htmlFor="police_station">Police Station</Label>
                             <Input
                                 id="police_station"
                                 name="police_station"
@@ -308,8 +331,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Police Station Name"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="district">জেলা/District</Label>
+                        <div>
+                            <Label htmlFor="district">District</Label>
                             <Input
                                 id="district"
                                 name="district"
@@ -319,12 +342,14 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                             />
                         </div>
                     </div>
+                </div>
 
-                    {/* Guardian Information */}
-                    <h2 className="text-lg font-bold">Guardian Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="guardian_name">অভিভাবকের নাম/Gurdian Name</Label>
+                {/* Guardian Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Guardian Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="guardian_name">Guardian Name</Label>
                             <Input
                                 id="guardian_name"
                                 name="guardian_name"
@@ -333,8 +358,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Guardian Name"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="guardian_nid">অভিভাবকের এন আই ডি/Gurdian NID</Label>
+                        <div>
+                            <Label htmlFor="guardian_nid">Guardian NID</Label>
                             <Input
                                 id="guardian_nid"
                                 name="guardian_nid"
@@ -343,8 +368,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Guardian NID"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="relation">সম্পর্ক/Relation</Label>
+                        <div>
+                            <Label htmlFor="relation">Relation</Label>
                             <Input
                                 id="relation"
                                 name="relation"
@@ -353,8 +378,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 placeholder="Enter Relation"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="mobile">মোবাইল/Mobile*</Label>
+                        <div>
+                            <Label htmlFor="mobile">Mobile<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="mobile"
                                 name="mobile"
@@ -365,12 +390,14 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                             />
                         </div>
                     </div>
+                </div>
 
-                    {/* Admission Fee Information */}
-                    <h2 className="text-lg font-bold">Admission Fee Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="admission_fee">ভর্তি ফী /Admission Fee*</Label>
+                {/* Admission Fee Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Admission Fee Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="admission_fee">Admission Fee<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="admission_fee"
                                 name="admission_fee"
@@ -381,8 +408,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="admission_fee_receive">ভর্তি ফী গ্রহণ/Admission Fee Receive*</Label>
+                        <div>
+                            <Label htmlFor="admission_fee_receive">Admission Fee Received<span className='text-red-500'>*</span></Label>
                             <Input
                                 id="admission_fee_receive"
                                 name="admission_fee_receive"
@@ -393,8 +420,8 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                                 required
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="admission_fee_discount">ভর্তি ফী ডিসকাউন্ট/Admission Fee Discount</Label>
+                        <div>
+                            <Label htmlFor="admission_fee_discount">Admission Fee Discount</Label>
                             <Input
                                 id="admission_fee_discount"
                                 name="admission_fee_discount"
@@ -405,59 +432,84 @@ const CreateEditStudentComponent = ({ isOpen , onClose, initialData }) => {
                             />
                         </div>
                     </div>
+                </div>
 
-                    {/* Additional Information */}
-                    <h2 className="text-lg font-bold">Additional Information</h2>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="guardian_address">অভিভাবকের ঠিকানা/Gurdian&apos;s Address</Label>
+                {/* Additional Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Additional Information</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <Label htmlFor="guardian_address">Guardian Address</Label>
                             <Input
                                 id="guardian_address"
                                 name="guardian_address"
                                 value={formData.guardian_address}
                                 onChange={handleInputChange}
-                                placeholder="Enter Guardian&apos;s Address"
+                                placeholder="Enter Guardian's Address"
                             />
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="photo">ছাত্রের ছবি/Photo</Label>
+                        </div><div>
+                            <Label htmlFor="photo">Student Photo</Label>
                             <Input
                                 id="photo"
                                 name="photo"
                                 type="file"
-                                onChange={handleFileChange}
+                                onChange={(e) => {
+                                    handleFileChange(e);
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            const imgPreview = document.getElementById('photo-preview');
+                                            imgPreview.src = event.target.result;
+                                            imgPreview.style.display = 'block';
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
+                                accept="image/*"
+                                className="mb-2"
                             />
+                            <img id="photo-preview" alt="Photo Preview" className="w-full h-auto border rounded-md" style={{ display: 'none' }} />
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <Label htmlFor="other_documents">অন্যান্য ডকুমেন্টস/Other Documents</Label>
+
+                        <div>
+                            <Label htmlFor="other_documents">Other Documents</Label>
                             <Input
                                 id="other_documents"
                                 name="other_documents"
                                 type="file"
                                 multiple
-                                onChange={handleFileChange}
+                                onChange={(e) => {
+                                    handleFileChange(e);
+                                    const files = Array.from(e.target.files);
+                                    const previewContainer = document.getElementById('documents-preview');
+                                    previewContainer.innerHTML = ''; // Clear previous previews
+
+                                    files.forEach((file) => {
+                                        const reader = new FileReader();
+                                        reader.onload = (event) => {
+                                            const img = document.createElement('img');
+                                            img.src = event.target.result;
+                                            img.className = 'w-32 h-32 object-cover border rounded-md m-1'; // Adjust size as needed
+                                            previewContainer.appendChild(img);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    });
+                                }}
+                                className="mb-2"
                             />
+                            <div id="documents-preview" className="flex flex-wrap"></div>
                         </div>
+
                     </div>
                 </div>
 
-                <DialogFooter>
-                    <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onClose}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                    >
-                        Save
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                <div className="flex justify-end space-x-4">
+                    <Button type="button" variant="outline" onClick={handleCancel}>Cancel</Button>
+                    <Button type="submit">Save</Button>
+                </div>
+            </form>
+        </div>
     );
 };
 

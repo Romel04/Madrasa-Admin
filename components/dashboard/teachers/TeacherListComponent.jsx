@@ -7,8 +7,6 @@ import {
     DialogTitle,
     DialogFooter
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash, ArrowBigLeft, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,7 +14,7 @@ import { EnhancedDataTable } from "@/components/EnhancedDataTable";
 import { Toaster, toast } from "sonner"; // Import Sonner for notifications
 
 // Delete Confirmation Modal Component
-const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, studentName }) => {
+const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, teacherName }) => {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[300px]">
@@ -24,7 +22,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, studentName }) => {
                     <DialogTitle>Confirm Delete</DialogTitle>
                 </DialogHeader>
                 <div className="py-4">
-                    <p>Are you sure you want to delete the student &quot;{studentName}&quot;?</p>
+                    <p>Are you sure you want to delete the teacher &quot;{teacherName}&quot;?</p>
                 </div>
                 <DialogFooter>
                     <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
@@ -35,36 +33,36 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, studentName }) => {
     );
 };
 
-// Main Student List Component
-export default function StudentListComponent() {
+// Main Teachers List Component
+export default function TeachersListComponent() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [selectedStudent, setSelectedStudent] = useState(null);
-    const [students, setStudents] = useState([
-        { id: 1, register_no: "REG001", name: "John Doe", class: "10", department: "Science", roll: 1, type: "Regular", admission_type: "New", phone: "1234567890", year: 2023 },
-        { id: 2, register_no: "REG002", name: "Jane Smith", class: "10", department: "Commerce", roll: 2, type: "Regular", admission_type: "Transfer", phone: "0987654321", year: 2023 },
-        // Add more initial students as needed
+    const [selectedTeacher, setSelectedTeacher] = useState(null);
+    const [teachers, setTeachers] = useState([
+        { id: 1, name: "Alice Johnson", designation: "Math Teacher", salary: 50000, phone: "1234567890", className: "10A", department: "Mathematics", verified: true, status: "Active", subjectName: "Algebra" },
+        { id: 2, name: "Bob Smith", designation: "Science Teacher", salary: 55000, phone: "0987654321", className: "10B", department: "Science", verified: false, status: "Inactive", subjectName: "Biology" },
+        // Add more initial teachers as needed
     ]);
 
     const router = useRouter();
 
-    const handleCreateStudent = () => {
-        router.push('/students/students-list/create');
+    const handleCreateTeacher = () => {
+        router.push('/teachers/teachers-list/create');
     };
 
-    const handleEditStudent = (student) => {
-        router.push(`/students/students-list/edit?id=${student.id}`);
+    const handleEditTeacher = (teacher) => {
+        router.push(`/teachers/teachers-list/edit?id=${teacher.id}`);
     };
 
-    const handleDeleteStudent = (studentToDelete) => {
-        setSelectedStudent(studentToDelete);
+    const handleDeleteTeacher = (teacherToDelete) => {
+        setSelectedTeacher(teacherToDelete);
         setIsDeleteModalOpen(true);
     };
 
     const confirmDelete = () => {
-        setStudents(prev =>
-            prev.filter(student => student.id !== selectedStudent.id)
+        setTeachers(prev =>
+            prev.filter(teacher => teacher.id !== selectedTeacher.id)
         );
-        toast.success(`Deleted student "${selectedStudent.name}" successfully!`);
+        toast.success(`Deleted teacher "${selectedTeacher.name}" successfully!`);
         setIsDeleteModalOpen(false);
     };
 
@@ -77,46 +75,22 @@ export default function StudentListComponent() {
             cell: ({ row }) => row.index + 1,
         },
         {
-            accessorKey: "register_no",
-            header: "Register No",
-            id: "register_no",
-            size: 150,
-        },
-        {
             accessorKey: "name",
-            header: "Student Name",
+            header: "Name",
             id: "name",
             size: 200,
         },
         {
-            accessorKey: "class",
-            header: "Class",
-            id: "class",
+            accessorKey: "designation",
+            header: "Designation",
+            id: "designation",
+            size: 150,
+        },
+        {
+            accessorKey: "salary",
+            header: "Salary",
+            id: "salary",
             size: 100,
-        },
-        {
-            accessorKey: "department",
-            header: "Department",
-            id: "department",
-            size: 150,
-        },
-        {
-            accessorKey: "roll",
-            header: "Student Roll",
-            id: "roll",
-            size: 150,
-        },
-        {
-            accessorKey: "type",
-            header: "Student Type",
-            id: "type",
-            size: 170,
-        },
-        {
-            accessorKey: "admission_type",
-            header: "Admission Type",
-            id: "admission_type",
-            size: 180,
         },
         {
             accessorKey: "phone",
@@ -125,10 +99,35 @@ export default function StudentListComponent() {
             size: 150,
         },
         {
-            accessorKey: "year",
-            header: "Year",
-            id: "year",
+            accessorKey: "className",
+            header: "Class Name",
+            id: "className",
+            size: 150,
+        },
+        {
+            accessorKey: "department",
+            header: "Department",
+            id: "department",
+            size: 150,
+        },
+        {
+            accessorKey: "verified",
+            header: "Verified",
+            id: "verified",
             size: 100,
+            cell: ({ row }) => (row.original.verified ? "Yes" : "No"),
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+            id: "status",
+            size: 100,
+        },
+        {
+            accessorKey: "subjectName",
+            header: "Subject Name",
+            id: "subjectName",
+            size: 150,
         },
         {
             header: "Action",
@@ -140,7 +139,7 @@ export default function StudentListComponent() {
                         variant="ghost"
                         size="sm"
                         className="text-blue-500 hover:bg-blue-700"
-                        onClick={() => handleEditStudent(row.original)}
+                        onClick={() => handleEditTeacher(row.original)}
                     >
                         <Edit size={16} className="mr-2" /> Edit
                     </Button>
@@ -148,7 +147,7 @@ export default function StudentListComponent() {
                         variant="ghost"
                         size="sm"
                         className="text-red-500 hover:bg-red-700"
-                        onClick={() => handleDeleteStudent(row.original)}
+                        onClick={() => handleDeleteTeacher(row.original)}
                     >
                         <Trash size={16} className="mr-2" /> Delete
                     </Button>
@@ -172,20 +171,20 @@ export default function StudentListComponent() {
                             <ArrowBigLeft size={40} />
                         </p>
                     </div>
-                    <h1 className="text-2xl font-bold">Student List</h1>
+                    <h1 className="text-2xl font-bold">Teachers List</h1>
                 </div>
 
                 <Button
-                    onClick={handleCreateStudent}
+                    onClick={handleCreateTeacher}
                     className="flex items-center gap-x-2"
                 >
-                    <Plus size={16} /> Create Student
+                    <Plus size={16} /> Create Teacher
                 </Button>
             </div>
 
             <EnhancedDataTable
                 columns={columns}
-                data={students}
+                data={teachers}
                 allowRowSelect={true}
             />
 
@@ -193,7 +192,7 @@ export default function StudentListComponent() {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={confirmDelete}
-                studentName={selectedStudent?.name}
+                teacherName={selectedTeacher?.name}
             />
         </div>
     );
