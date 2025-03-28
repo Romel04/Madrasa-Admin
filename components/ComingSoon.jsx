@@ -24,7 +24,7 @@ const ComingSoon = () => {
             }} />
             <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
                 <h1 style={{ fontSize: '4em', margin: 0 }} className='text-[#794705]'>Coming Soon</h1>
-                <p style={{ fontSize: '1.5em' }} className='text-[#794705]'>We're working hard to bring you something amazing!</p>
+                <p style={{ fontSize: '1.5em' }} className='text-[#794705]'>We&apos;re working hard to bring you something amazing!</p>
             </div>
         </div>
     );
