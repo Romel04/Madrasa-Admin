@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/providers/AuthProvider";
-import { Users, DollarSign, Award, Calendar, School, Wallet, User } from "lucide-react";
+import { School, DollarSign, Wallet, User } from "lucide-react";
 import { useLanguage } from "@/providers/LanguageProvider";
 
 const statsCards = [
@@ -37,7 +37,10 @@ export default function DashboardComponent() {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [currentTimeStr, setCurrentTimeStr] = useState("");
-  const [greeting, setGreeting] = useState("Good day");
+  const [greeting, setGreeting] = useState("");
+
+  // State for prayer times
+  const [prayerTimes, setPrayerTimes] = useState({});
 
   useEffect(() => {
     // Set current time
@@ -45,7 +48,8 @@ export default function DashboardComponent() {
       const now = new Date();
       setCurrentTimeStr(now.toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        hour12: true
       }));
 
       // Set greeting based on time of day
@@ -64,6 +68,30 @@ export default function DashboardComponent() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // Fetch prayer times
+    const fetchPrayerTimes = async () => {
+      try {
+        const response = await fetch("http://api.aladhan.com/v1/timings?latitude=23.7483066&longitude=90.4323979&method=1");
+        const data = await response.json();
+        setPrayerTimes(data.data.timings);
+      } catch (error) {
+        console.error("Error fetching prayer times:", error);
+      }
+    };
+
+    fetchPrayerTimes();
+  }, []);
+
+  // Function to format time to 12-hour format
+  const formatTime = (time) => {
+    const [hour, minute] = time.split(':');
+    const date = new Date();
+    date.setHours(hour);
+    date.setMinutes(minute);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  };
 
   return (
     <div className="min-h-screen py-10">
@@ -94,12 +122,29 @@ export default function DashboardComponent() {
             />
           ))}
         </div>
+
+        {/* Prayer Times Section */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold">Prayer Times</h2>
+          <div className="grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3">
+            {prayerTimes && Object.entries(prayerTimes).map(([prayer, time]) => (
+              <Card key={prayer} className={`card-background bg-opacity-80 shadow-md`}>
+                <CardContent className="p-4">
+                  <CardHeader>
+                    <CardTitle>{prayer}</CardTitle>
+                  </CardHeader>
+                  <CardDescription className="pl-5 text-white">{formatTime(time)}</CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-const StatsCard = ({ title, value, icon, color, banglaTitle }) => {
+const StatsCard = ({ title, value, icon, color }) => {
   const Icon = icon;
 
   return (

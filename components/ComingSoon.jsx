@@ -23,8 +23,8 @@ const ComingSoon = () => {
                 background: 'rgba(0, 0, 0, 0.1)', // Dark overlay
             }} />
             <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-                <h1 style={{ fontSize: '4em', margin: 0 }}>Coming Soon</h1>
-                <p style={{ fontSize: '1.5em' }}>We're working hard to bring you something amazing!</p>
+                <h1 style={{ fontSize: '4em', margin: 0 }} className='text-[#794705]'>Coming Soon</h1>
+                <p style={{ fontSize: '1.5em' }} className='text-[#794705]'>We're working hard to bring you something amazing!</p>
             </div>
         </div>
     );

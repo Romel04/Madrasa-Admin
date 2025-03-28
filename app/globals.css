@@ -208,3 +208,12 @@
   font-weight: 900;
   font-style: italic;
 }
+
+
+.card-background {
+  background-image: url('/assets/prayer.jpg'); /* Adjust the path as necessary */
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px; /* Optional: for rounded corners */
+  color: white; /* Change text color for better contrast */
+}

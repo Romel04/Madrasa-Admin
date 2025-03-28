@@ -178,7 +178,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                             "flex items-center rounded-md py-2 transition-colors",
                             isActive
                               ? "bg-white text-primary-700" // Active state with white background
-                              : "text-primary-100 hover:bg-primary-600 hover:text-white",
+                              : "text-white hover:bg-primary-600 hover:text-white",
                             isCollapsed ? "justify-center px-2" : "px-3"
                           )}
                         >
@@ -214,7 +214,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                 <button
                   onClick={logout}
                   className={cn(
-                    "flex w-full items-center rounded-md py-2 text-primary-100 transition-colors hover:bg-primary-600 hover:text-white",
+                    "flex w-full items-center rounded-md py-2 text-white transition-colors hover:bg-primary-600 hover:text-white",
                     isCollapsed ? "justify-center px-2" : "px-3"
                   )}
                 >

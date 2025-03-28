@@ -20,13 +20,14 @@ import {
   UserPlus,
   CreditCard,
   MessageCircle,
+  MonitorCog,
 } from "lucide-react";
 
 const settingsCards = [
   { name: "academicSettings", banglaName: "একাডেমিক সেটিংস" , icon: Settings, gradient: "bg-gradient-to-r from-purple-500 to-indigo-500", slug: "academic-settings" },
   { name: "session", banglaName: "সেশন", icon: Bell, gradient: "bg-gradient-to-r from-blue-500 to-cyan-500", slug: "session" },
-  { name: "department", banglaName: "বিভাগ", icon: Bell, gradient: "bg-gradient-to-r from-blue-500 to-cyan-500", slug: "department" },
-  { name: "subject", banglaName: "বিষয়", icon: Lock, gradient: "bg-gradient-to-r from-green-500 to-emerald-500", slug: "subject" },
+  { name: "department", banglaName: "বিভাগ", icon: MonitorCog , gradient: "bg-gradient-to-r from-pink-500 to-fuchsia-500", slug: "department" },
+  { name: "subject", banglaName: "বিষয়", icon: Book, gradient: "bg-gradient-to-r from-green-500 to-emerald-500", slug: "subject" },
   { name: "examination", banglaName: "পরীক্ষা", icon: FileText, gradient: "bg-gradient-to-r from-yellow-500 to-amber-500", slug: "examination" },
   { name: "class", banglaName: "ক্লাস", icon: Briefcase, gradient: "bg-gradient-to-r from-red-500 to-rose-500", slug: "class" },
   // { name: "book", banglaName: "বই", icon: Book, gradient: "bg-gradient-to-r from-pink-500 to-fuchsia-500", slug: "book" },
