@@ -74,7 +74,7 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
   const pageName = t(pageNameKey);
   
   return (
-    <header className="fixed top-0 z-20 w-[94%] bg-background shadow-lg">
+    <header className="fixed top-0 z-20 sm:w-[94%] bg-background shadow-lg">
       <div className="flex h-[70px] items-center justify-between px-4">
         {/* Left section: Menu toggle for mobile, page title */}
         <div className="flex items-center gap-3">

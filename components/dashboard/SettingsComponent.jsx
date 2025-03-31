@@ -54,7 +54,7 @@ export default function SettingsComponent() {
   return (
     <div className="space-y-6 w-full">
       <Tabs defaultValue="academic-settings">
-        <TabsList className="flex flex-col sm:flex-row sm:mb-4 sm:mt-4">
+        <TabsList className="flex flex-col sm:flex-row sm:mb-4 sm:mt-4 gap-4">
           <TabsTrigger value="academic-settings" className=" text-[20px] sm:h-[40px]">{t('academicSettings')}</TabsTrigger>
           {/* <TabsTrigger value="security">{t('security')}</TabsTrigger> */}
           <TabsTrigger value="website" className=" text-[20px] sm:h-[40px]">{t('websiteSettings')}</TabsTrigger>

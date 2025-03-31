@@ -40,8 +40,51 @@ export default function MobileSidebar() {
       href: "/settings",
       icon: Settings,
     },
-    // Add other sidebar items as in MainSidebar
-    // ...
+    {
+      nameKey: "students",
+      href: "/students",
+      icon: FileText,
+    },
+    {
+      nameKey: "teachers",
+      href: "/teachers",
+      icon: Users,
+    },
+    {
+      nameKey: "educationalDepartment",
+      href: "/educational-department",
+      icon: Calendar,
+    },
+    {
+      nameKey: "administrationDepartment",
+      href: "/administration-department",
+      icon: Briefcase,
+    },
+    {
+      nameKey: "accountingDepartment",
+      href: "/accounting-department",
+      icon: DollarSign,
+    },
+    {
+      nameKey: "boardingDepartment",
+      href: "/boarding-department",
+      icon: Home,
+    },
+    {
+      nameKey: "library",
+      href: "/library",
+      icon: Book,
+    },
+    {
+      nameKey: "mosque",
+      href: "/mosque",
+      icon: Award,
+    },
+    {
+      nameKey: "helpline",
+      href: "/helpline",
+      icon: HelpCircle,
+    },
   ];
 
   return (
