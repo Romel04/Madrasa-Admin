@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowBigLeft } from "lucide-react";
 
-const AcademicSettingsComponent = () => {
+const WebsiteSettingsComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
     webAddress: "",
@@ -45,7 +45,7 @@ const AcademicSettingsComponent = () => {
       <div className="flex gap-x-4">
         <div>
           <p
-            className="cursor-pointer text-blue-500 flex items-center gap-x-2 bg-gray-200 rounded-full"
+            className="cursor-pointer text-accent flex items-center gap-x-2 bg-gray-200 rounded-full"
             onClick={() => {
               router.back();
             }}
@@ -174,7 +174,7 @@ const AcademicSettingsComponent = () => {
 
         <div className="mt-4 text-right flex space-x-4">
           {/* Update Button */}
-          <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
+          <Button type="submit" className="bg-[#08381a] hover:bg-[rgb(8, 56, 26 , 0.9)]">
             Update
           </Button>
         </div>
@@ -183,4 +183,4 @@ const AcademicSettingsComponent = () => {
   );
 };
 
-export default AcademicSettingsComponent;
+export default WebsiteSettingsComponent;

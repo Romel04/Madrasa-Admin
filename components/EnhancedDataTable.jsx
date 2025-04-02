@@ -87,7 +87,7 @@ export function EnhancedDataTable({
         <div className="p-4 sm:p-6 sm:px-0">
             {tableTitle && (
                 <div className="mb-3 sm:mb-[30px]">
-                    <p className="text-[18px] font-[500] leading-[21.6px] text-blue-900">
+                    <p className="text-[16px] font-[700] leading-[21.6px] text-blue-900">
                         {tableTitle}
                     </p>
                 </div>
@@ -141,7 +141,7 @@ export function EnhancedDataTable({
                                                 minWidth: header?.column?.columnDef?.size,
                                                 maxWidth: header?.column?.columnDef?.size,
                                             }}
-                                            className="border border-gray-300 text-[18px] font-[600] leading-[16.8px] text-black-500 bg-gray-200"
+                                            className="border border-gray-300 text-[16px] font-[700] leading-[16.8px] text-black-500 bg-gray-200"
                                             key={header.id}
                                         >
                                             {header.isPlaceholder
@@ -166,7 +166,7 @@ export function EnhancedDataTable({
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
-                                            className="border border-gray-300 py-6 text-[16px] font-[500] leading-[16.8px] text-black"
+                                            className="border border-gray-300 py-6 text-[16px] font-[400] leading-[16.8px] text-black"
                                             style={{
                                                 minWidth: cell?.column?.columnDef?.size,
                                                 maxWidth: cell?.column?.columnDef?.size,

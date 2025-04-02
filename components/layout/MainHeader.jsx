@@ -74,7 +74,8 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
   const pageName = t(pageNameKey);
   
   return (
-    <header className="fixed top-0 z-20 sm:w-[94%] bg-background shadow-lg">
+    <header className={`sm:fixed top-4 z-20 ${
+      isCollapsed ? "sm:w-[90%]" : "sm:w-[75%]"} bg-primary shadow-lg rounded-[20px] right-4`}>
       <div className="flex h-[70px] items-center justify-between px-4">
         {/* Left section: Menu toggle for mobile, page title */}
         <div className="flex items-center gap-3">
@@ -82,8 +83,8 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
           <div className="lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="mr-2">
-                  <Menu className="h-5 w-5 text-text" />
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5 text-white" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
@@ -96,9 +97,9 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
           {/* Page title */}
           <div className="flex items-center gap-2">
             {PageIcon && (
-              <PageIcon className="h-5 w-5 text-text" />
+              <PageIcon className="h-5 w-5 text-white" />
             )}
-            <h1 className="text-lg font-medium text-text">
+            <h1 className="text-lg font-medium text-white">
               {pageName}
             </h1>
           </div>
@@ -106,7 +107,7 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
 
         {/* Right section: Search, language switch, notifications, user menu */}
         <div className={`flex items-center gap-2 ${
-          isCollapsed ? "w-auto" : "w-[calc(100%-65%)]"
+          isCollapsed ? "w-auto" : "w-[235px]"
         }`}>
           {/* Language Switch */}
           <LanguageSwitch />
@@ -121,11 +122,11 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
                 <User className="h-4 w-4 text-text" />
               </AvatarFallback>
             </Avatar>
-            <span className="hidden md:inline-block text-text">
+            <span className="hidden md:inline-block text-white">
               {user?.name || "Admin User"}
             </span>
             <Button variant="ghost" onClick={logout}>
-              <LogOut className="h-4 w-4 text-text" />
+              <LogOut className="h-4 w-4 text-white hover:text-white" />
               <span className="sr-only">{t('logout')}</span>
             </Button>
           </div>

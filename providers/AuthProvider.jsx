@@ -7,7 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 const AuthContext = createContext({});
 
 // Auth routes (these don't require authentication)
-const authRoutes = ["/login", "/register", "/forgot-password"];
+const authRoutes = ["/login", "/register", "/forget-password" , "/otp-verification" , "/change-password"];
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -63,12 +63,13 @@ export function AuthProvider({ children }) {
       // Simulate API response
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Update this condition to match the new password
-      if (credentials.email === "admin@example.com" && credentials.password === "admin123") {
+      // Update this condition to match the new credentials
+      if (credentials.phone === "01987654321" && credentials.password === "admin123") {
         const userData = {
           id: "1",
           name: "Admin User",
-          email: credentials.email,
+          email: "admin@example.com",
+          phone: "01987654321",
           role: "admin",
         };
         

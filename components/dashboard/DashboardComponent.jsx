@@ -38,6 +38,7 @@ export default function DashboardComponent() {
   const { user } = useAuth();
   const [currentTimeStr, setCurrentTimeStr] = useState("");
   const [greeting, setGreeting] = useState("");
+  const subscriptionExpiryDate = "30-04-2025"; // Example expiry date
 
   // State for prayer times
   const [prayerTimes, setPrayerTimes] = useState({});
@@ -94,8 +95,15 @@ export default function DashboardComponent() {
   };
 
   return (
-    <div className="min-h-screen py-10">
+    <div className="min-h-screen py-0">
       <div className="max-w-7xl mx-auto space-y-6">
+        
+        {/* Subscription Expiry Message */}
+        <div className="text-red-500 text-center text-sm mb-4">
+          <p>Your subscription will expire on {subscriptionExpiryDate}.</p>
+          <p>আপনার সাবস্ক্রিপশন {subscriptionExpiryDate} তারিখে শেষ হবে।</p>
+        </div>
+
         {/* Welcome section */}
         <div className="space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
@@ -124,7 +132,7 @@ export default function DashboardComponent() {
         </div>
 
         {/* Prayer Times Section */}
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <h2 className="text-2xl font-bold">Prayer Times</h2>
           <div className="grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3">
             {prayerTimes && Object.entries(prayerTimes).map(([prayer, time]) => (
@@ -138,7 +146,7 @@ export default function DashboardComponent() {
               </Card>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

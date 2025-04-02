@@ -1,5 +1,6 @@
 "use client";
 
+import { SubscriptIcon } from "lucide-react";
 import { createContext, useContext, useState, useEffect } from "react";
 
 // Create language context
@@ -28,6 +29,7 @@ const translations = {
     library: "Library",
     mosque: "Mosque",
     helpline: "Helpline",
+    subscription : "Subscription package",
     
     // Common UI elements
     search: "Search",
@@ -72,8 +74,9 @@ const translations = {
     user: "User",
     admissionFee: "Admission fee",
     smsSettings: "SMS setting",
-    websiteSettings: "Website setting",
+    websiteSettings: "Website Setting",
     security: "Security",
+    profileSettings : "Profile Settings",
 
     //Dashboard
     totalStudents: "Total Students",
@@ -142,6 +145,8 @@ const translations = {
     smsSettings: "এসএমএস সেটিংস",
     websiteSettings: "ওয়েবসাইট সেটিংস",
     security: "নিরাপত্তা",
+    profileSettings : "প্রোফাইল সেটিংস",
+    subscription : "সাবস্ক্রিপশন",
 
     //Dashbaord
     totalStudents: "মোট শিক্ষার্থী",

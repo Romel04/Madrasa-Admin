@@ -365,7 +365,7 @@ export default function GradeComponent() {
                         className="text-blue-500 hover:bg-blue-700"
                         onClick={() => handleEditGrade(row.original)}
                     >
-                        <Edit size={16} className="mr-2" /> Edit
+                        <Edit size={16}/>
                     </Button>
                     <Button
                         variant="ghost"
@@ -373,7 +373,7 @@ export default function GradeComponent() {
                         className="text-red-500 hover:bg-red-700"
                         onClick={() => handleDeleteGrade(row.original)}
                     >
-                        <Trash size={16} className="mr-2" /> Delete
+                        <Trash size={16}/>
                     </Button>
                 </div>
             ),
@@ -387,7 +387,7 @@ export default function GradeComponent() {
                 <div className="flex items-center gap-x-4">
                     <div>
                         <p
-                            className="cursor-pointer text-blue-500 flex items-center gap-x-2 bg-gray-200 rounded-full"
+                            className="cursor-pointer text-accent  flex items-center gap-x-2 bg-gray-200 rounded-full"
                             onClick={() => {
                                 router.back();
                             }}

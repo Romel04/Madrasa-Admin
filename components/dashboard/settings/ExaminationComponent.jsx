@@ -218,7 +218,7 @@ export default function ExaminationComponent() {
                             setIsSessionModalOpen(true);
                         }}
                     >
-                        <Edit size={16} className="mr-2" /> Edit
+                        <Edit size={16}/>
                     </Button>
 
                     <Button
@@ -230,7 +230,7 @@ export default function ExaminationComponent() {
                             setIsDeleteModalOpen(true);
                         }}
                     >
-                        <Trash size={16} className="mr-2" /> Delete
+                        <Trash size={16}/>
                     </Button>
                 </div>
             ),
@@ -265,7 +265,7 @@ export default function ExaminationComponent() {
                         <div className="flex gap-x-4">
                             <div>
                                 <p
-                                    className="cursor-pointer text-blue-500 flex items-center gap-x-2 bg-gray-200 rounded-full"
+                                    className="cursor-pointer text-accent  flex items-center gap-x-2 bg-gray-200 rounded-full"
                                     onClick={() => {
                                         router.back();
                                     }}
@@ -280,14 +280,14 @@ export default function ExaminationComponent() {
 
                         <CommonButton
                             name="Create"
-                            bgColor="#4999ff"
+                            bgColor="#08381a"
                             textColor="#ffffff"
                             textSize="16px"
                             fontWeight="500"
                             leading="22.4px"
                             px="20px"
                             height="40px"
-                            hoverColor="rgb(73 153 255 / 88%)"
+                            hoverColor="rgb(8, 56, 26 , 0.9)"
                             onClick={() => {
                                 setViewMode("create");
                                 setIsSessionModalOpen(true);

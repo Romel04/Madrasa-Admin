@@ -32,7 +32,14 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-background-light">
+    <div 
+      className="min-h-screen bg-background-light" 
+      // style={{
+      //   backgroundImage: "url('/assets/bg1.jpg')",
+      //   backgroundSize: "100%",
+      //   backgroundPosition: "center",
+      // }}
+    >
       <MainSidebar 
         isCollapsed={isSidebarCollapsed} 
         toggleSidebar={toggleSidebar} 
@@ -46,7 +53,7 @@ export default function DashboardLayout({ children }) {
           isCollapsed={isSidebarCollapsed} 
           toggleSidebar={toggleSidebar} 
         />
-        <main className="pt-[70px] p-4 md:p-6 mt-8">
+        <main className="sm:pt-[70px] p-4 sm:p-6 sm:mt-8">
           <div className="rounded-lg bg-background-card p-4 md:p-6 shadow-sm">
             {children}
           </div>

@@ -19,7 +19,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#4999ff', // Primary blue
+          DEFAULT: '#08381a', // Primary blue
           foreground: '#ffffff' // White text on primary
         },
         secondary: {
@@ -27,7 +27,7 @@ module.exports = {
           foreground: '#ffffff' // White text on secondary
         },
         accent: {
-          DEFAULT: '#3a75ff', // Accent orange
+          DEFAULT: '#107336', // Accent orange
           foreground: '#ffffff' // White text on accent
         },
         text: {

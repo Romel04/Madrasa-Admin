@@ -193,7 +193,7 @@ export default function SubjectComponent() {
             className="text-blue-500 hover:bg-blue-700"
             onClick={() => handleEditSubject(row.original)}
           >
-            <Edit size={16} className="mr-2" /> Edit
+            <Edit size={16} />
           </Button>
           <Button
             variant="ghost"
@@ -201,7 +201,7 @@ export default function SubjectComponent() {
             className="text-red-500 hover:bg-red-700"
             onClick={() => handleDeleteSubject(row.original)}
           >
-            <Trash size={16} className="mr-2" /> Delete
+            <Trash size={16} />
           </Button>
         </div>
       ),
@@ -215,7 +215,7 @@ export default function SubjectComponent() {
         <div className="flex items-center gap-x-4">
           <div>
             <p
-              className="cursor-pointer text-blue-500 flex items-center gap-x-2 bg-gray-200 rounded-full"
+              className="cursor-pointer text-accent  flex items-center gap-x-2 bg-gray-200 rounded-full"
               onClick={() => {
                 router.back();
               }}

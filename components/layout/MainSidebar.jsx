@@ -31,6 +31,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 export default function MainSidebar({ isCollapsed, toggleSidebar }) {
   const pathname = usePathname();
@@ -86,6 +87,11 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
       icon: Book,
     },
     {
+      nameKey: "subscription",
+      href: "/subscription",
+      icon: Book,
+    },
+    {
       nameKey: "mosque",
       href: "/mosque",
       icon: Award,
@@ -108,7 +114,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-30 h-full bg-primary shadow-md transition-all duration-300 ease-in-out",
+        "fixed left-4 top-4 z-30 h-[95%] rounded-[20px] bg-primary shadow-md transition-all duration-300 ease-in-out",
         isCollapsed ? "w-20" : "w-64",
         "hidden lg:block" // Hide on mobile, will use drawer instead
       )}
@@ -148,16 +154,18 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
             </Link>
           )}
           
-          <button
+          <Button
             onClick={toggleSidebar}
+            variant="ghost"
+            size="icon"
             className={cn(
-              "flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-primary-600",
+              "h-8 w-8 rounded-full text-white hover:bg-primary-600",
               isCollapsed ? "ml-0" : "ml-2"
             )}
             aria-label={isCollapsed ? t('expandSidebar') : t('collapseSidebar')}
           >
             {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
-          </button>
+          </Button>
         </div>
 
         {/* Navigation Menu */}
@@ -211,10 +219,11 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
           <TooltipProvider delayDuration={300}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
                   onClick={logout}
+                  variant="ghost"
                   className={cn(
-                    "flex w-full items-center rounded-md py-2 text-white transition-colors hover:bg-primary-600 hover:text-white",
+                    "w-full items-center rounded-md py-2 text-white hover:bg-primary-600 hover:text-white",
                     isCollapsed ? "justify-center px-2" : "px-3"
                   )}
                 >
@@ -226,7 +235,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                   {!isCollapsed && (
                     <span>{t('logout')}</span>
                   )}
-                </button>
+                </Button>
               </TooltipTrigger>
               
               {isCollapsed && (

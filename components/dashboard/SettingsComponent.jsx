@@ -4,63 +4,50 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/providers/LanguageProvider";
 import { useRouter } from "next/navigation";
-import {
-  Settings,
-  Bell,
-  Lock,
-  FileText,
-  Briefcase,
-  Book,
-  Bookmark,
-  Users,
-  DollarSign,
-  Award,
-  Grid,
-  Printer,
-  UserPlus,
-  CreditCard,
-  MessageCircle,
-  MonitorCog,
-} from "lucide-react";
+import { Settings, Bell, Lock, FileText, Briefcase, Book, Grid, MonitorCog } from "lucide-react";
+import { useState } from "react";
 
 const settingsCards = [
-  { name: "academicSettings", banglaName: "একাডেমিক সেটিংস" , icon: Settings, gradient: "bg-gradient-to-r from-purple-500 to-indigo-500", slug: "academic-settings" },
   { name: "session", banglaName: "সেশন", icon: Bell, gradient: "bg-gradient-to-r from-blue-500 to-cyan-500", slug: "session" },
-  { name: "department", banglaName: "বিভাগ", icon: MonitorCog , gradient: "bg-gradient-to-r from-pink-500 to-fuchsia-500", slug: "department" },
+  { name: "department", banglaName: "বিভাগ", icon: MonitorCog, gradient: "bg-gradient-to-r from-pink-500 to-fuchsia-500", slug: "department" },
   { name: "subject", banglaName: "বিষয়", icon: Book, gradient: "bg-gradient-to-r from-green-500 to-emerald-500", slug: "subject" },
   { name: "examination", banglaName: "পরীক্ষা", icon: FileText, gradient: "bg-gradient-to-r from-yellow-500 to-amber-500", slug: "examination" },
   { name: "class", banglaName: "ক্লাস", icon: Briefcase, gradient: "bg-gradient-to-r from-red-500 to-rose-500", slug: "class" },
-  // { name: "book", banglaName: "বই", icon: Book, gradient: "bg-gradient-to-r from-pink-500 to-fuchsia-500", slug: "book" },
-  // { name: "bookAssign", banglaName: "বই এসাইন", icon: Bookmark, gradient: "bg-gradient-to-r from-indigo-500 to-violet-500", slug: "book-assign" },
-  // { name: "responsibility", banglaName: "দায়িত্ব", icon: Users, gradient: "bg-gradient-to-r from-teal-500 to-cyan-500", slug: "responsibility" },
-  // { name: "donorType", banglaName: "দাতার ধরণ", icon: DollarSign, gradient: "bg-gradient-to-r from-orange-500 to-amber-500", slug: "donor-type" },
-  // { name: "donationType", banglaName: "দান ধরণ", icon: Award, gradient: "bg-gradient-to-r from-lime-500 to-emerald-500", slug: "donation-type" },
   { name: "grade", banglaName: "গ্রেড সিস্টেম", icon: Grid, gradient: "bg-gradient-to-r from-cyan-500 to-sky-500", slug: "grade" },
-  // { name: "shop", banglaName: "দোকান", icon: Printer, gradient: "bg-gradient-to-r from-fuchsia-500 to-rose-500", slug: "shop" },
-  // { name: "invoiceDesign", banglaName: "চালান ডিজাইন", icon: Printer, gradient: "bg-gradient-to-r from-emerald-500 to-green-500", slug: "invoice-design" },
-  // { name: "user", banglaName: "ব্যবহারকারী", icon: UserPlus, gradient: "bg-gradient-to-r from-rose-500 to-red-500", slug: "user" },
-  // { name: "admissionFee", banglaName: "ভর্তি ফি", icon: CreditCard, gradient: "bg-gradient-to-r from-sky-500 to-blue-500", slug: "admission-fee" },
-  // { name: "smsSettings", banglaName: "এসএমএস সেটিংস", icon: MessageCircle, gradient: "bg-gradient-to-r from-amber-500 to-yellow-500", slug: "sms-settings" },
+  // { name: "websiteSettings", banglaName: "বিষয়", icon: Book, gradient: "bg-gradient-to-r from-green-500 to-emerald-500", slug: "website-settings" },
 ];
 
 export default function SettingsComponent() {
   const { t } = useLanguage();
   const router = useRouter();
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   const handleCardClick = (slug) => {
     router.push(`settings/${slug}`);
   };
 
+  const handleChangePassword = (e) => {
+    e.preventDefault();
+    // Handle password change logic here
+    console.log("Old Password:", oldPassword);
+    console.log("New Password:", newPassword);
+    // Reset fields after submission
+    setOldPassword('');
+    setNewPassword('');
+  };
+
   return (
     <div className="space-y-6 w-full">
       <Tabs defaultValue="academic-settings">
-        <TabsList className="flex flex-col sm:flex-row sm:mb-4 sm:mt-4 gap-4">
-          <TabsTrigger value="academic-settings" className=" text-[20px] sm:h-[40px]">{t('academicSettings')}</TabsTrigger>
-          {/* <TabsTrigger value="security">{t('security')}</TabsTrigger> */}
-          <TabsTrigger value="website" className=" text-[20px] sm:h-[40px]">{t('websiteSettings')}</TabsTrigger>
+        <TabsList className="flex flex-col sm:flex-row sm:mb-4 sm:mt-0 gap-4">
+          <TabsTrigger value="academic-settings" className="text-[20px] sm:h-[40px]">{t('academicSettings')}</TabsTrigger>
+          <TabsTrigger value="website" className="text-[20px] sm:h-[40px]">{t('websiteSettings')}</TabsTrigger>
+          <TabsTrigger value="profileSettings" className="text-[20px] sm:h-[40px]">{t('profileSettings')}</TabsTrigger>
         </TabsList>
+
         <TabsContent value="academic-settings">
-          {/* Responsive grid layout */}
+          {/* Responsive grid layout for academic settings */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 sm:mt-0">
             {settingsCards.map((card, index) => (
               <Card
@@ -81,11 +68,53 @@ export default function SettingsComponent() {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value="security">
-          {/* Security settings content */}
-        </TabsContent>
+
         <TabsContent value="website">
-          {/* Other settings content */}
+          <div className="grid grid-cols-4">
+            <Card
+              className={`bg-gradient-to-r from-purple-500 to-indigo-500 backdrop-blur-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer`}
+              onClick={() => handleCardClick("website-settings")}
+            >
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-white text-[15px]">{t('websiteSettings')}</CardTitle>
+                  <Settings className="h-6 w-6 text-white" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* <p className="text-white">{t('academicSettingsBangla')}</p> */}
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="profileSettings" className="w-1/2">
+          <h2 className="text-lg font-semibold mb-4">Change Password</h2>
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div>
+              <label htmlFor="old-password" className="block text-sm font-medium text-gray-700">Old Password</label>
+              <input
+                type="password"
+                id="old-password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor="new-password" className="block text-sm font-medium text-gray-700">New Password</label>
+              <input
+                type="password"
+                id="new-password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              />
+            </div>
+            <button type="submit" className="mt-4 bg-[#08381a] hover:bg-[rgb(8, 56, 26 , 0.9)] text-white py-2 px-4 rounded">Submit</button>
+          </form>
         </TabsContent>
       </Tabs>
     </div>

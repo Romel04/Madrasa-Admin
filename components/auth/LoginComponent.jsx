@@ -12,8 +12,8 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 export default function LoginComponent() {
   const [formData, setFormData] = useState({
-    email: "admin@example.com",  // Set default email
-    password: "admin123",        // Set default password
+    phone: "01987654321",  // Set default phone number
+    password: "admin123",  // Set default password
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,11 +47,15 @@ export default function LoginComponent() {
     }
   };
 
+  const handleForgotPassword = () => {
+    router.push("/forget-password");
+  };
+
   return (
     <div 
       className="flex min-h-screen items-center justify-center p-4"
       style={{ 
-        backgroundImage: "url('/assets/loginBg.avif')", // Replace with your image path
+        backgroundImage: "url('/assets/loginBg1.jpg')", // Replace with your image path
         backgroundSize: "cover",
         backgroundPosition: "center"
       }}
@@ -59,7 +63,7 @@ export default function LoginComponent() {
       <Card className="w-full max-w-md shadow-lg bg-white bg-opacity-30 backdrop-blur-md rounded-lg border border-white border-opacity-20">
         <CardHeader className="space-y-4 text-center">
           <CardTitle className="text-2xl font-bold text-primary">Admin Login</CardTitle>
-          <CardDescription className=" text-white">
+          <CardDescription className=" text-primary">
             Enter your credentials to access the admin dashboard
           </CardDescription>
         </CardHeader>
@@ -72,22 +76,22 @@ export default function LoginComponent() {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email" className=" text-white">Email</Label>
+              <Label htmlFor="phone" className=" text-primary">Phone Number</Label>
               <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="admin@example.com"
-                value={formData.email}
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="01987654321"
+                value={formData.phone}
                 onChange={handleChange}
                 required
-                autoComplete="email"
-                className="w-full text-white"
+                autoComplete="tel"
+                className="w-full text-primary"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className=" text-white">Password</Label>
+              <Label htmlFor="password" className=" text-primary">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -98,7 +102,7 @@ export default function LoginComponent() {
                   onChange={handleChange}
                   required
                   autoComplete="current-password"
-                  className="w-full pr-10 text-white"
+                  className="w-full pr-10 text-primary"
                 />
                 <button
                   type="button"
@@ -128,6 +132,14 @@ export default function LoginComponent() {
         </CardContent>
         <CardFooter className="text-center text-sm text-text-muted">
           <div className="w-full">
+            <p className="mb-2 underline cursor-pointer" onClick={handleForgotPassword}>Forget Password?</p>
+            {/* <Button 
+              type="button" 
+              onClick={handleForgotPassword} 
+              className="w-full"
+            >
+              Forgot Password?
+            </Button> */}
             © {new Date().getFullYear()} Admin Dashboard
           </div>
         </CardFooter>
