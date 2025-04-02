@@ -29,6 +29,7 @@ export default function MobileSidebar() {
   const { t } = useLanguage();
 
   // Menu items for sidebar with translation keys
+
   const sidebarItems = [
     {
       nameKey: "dashboard",
@@ -76,6 +77,11 @@ export default function MobileSidebar() {
       icon: Book,
     },
     {
+      nameKey: "subscription",
+      href: "/subscription",
+      icon: Book,
+    },
+    {
       nameKey: "mosque",
       href: "/mosque",
       icon: Award,
@@ -119,7 +125,7 @@ export default function MobileSidebar() {
                     "flex items-center rounded-md px-3 py-2 transition-colors",
                     isActive
                       ? "bg-primary-700 text-white"
-                      : "text-primary-100 hover:bg-primary-600 hover:text-white"
+                      : "text-white hover:bg-primary-600 hover:text-white"
                   )}
                 >
                   <item.icon className="mr-2 h-5 w-5 flex-shrink-0" />
@@ -134,7 +140,7 @@ export default function MobileSidebar() {
       <div className="mt-auto border-t border-primary-600 px-2 py-4">
         <button
           onClick={logout}
-          className="flex w-full items-center rounded-md px-3 py-2 text-primary-100 transition-colors hover:bg-primary-600 hover:text-white"
+          className="flex w-full items-center rounded-md px-3 py-2 text-white transition-colors hover:bg-primary-600 hover:text-white"
         >
           <LogOut className="mr-2 h-5 w-5 flex-shrink-0" />
           <span>{t('logout')}</span>

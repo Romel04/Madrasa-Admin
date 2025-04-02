@@ -39,7 +39,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
   const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
 
-  // Menu items for sidebar with translation keys
+
   const sidebarItems = [
     {
       nameKey: "dashboard",
@@ -140,7 +140,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
               </span>
             </Link>
           )}
-          
+
           {isCollapsed && (
             <Link href="/dashboard" className="flex items-center justify-center">
               <Image
@@ -153,7 +153,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
               />
             </Link>
           )}
-          
+
           <Button
             onClick={toggleSidebar}
             variant="ghost"
@@ -231,13 +231,13 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
                     "h-5 w-5 flex-shrink-0",
                     isCollapsed ? "mx-0" : "mr-2"
                   )} />
-                  
+
                   {!isCollapsed && (
                     <span>{t('logout')}</span>
                   )}
                 </Button>
               </TooltipTrigger>
-              
+
               {isCollapsed && (
                 <TooltipContent side="right">
                   {t('logout')}
