@@ -48,6 +48,7 @@ export default function ChangePassword() {
           {error && <p className="text-red-500">{error}</p>}
           
           <Label htmlFor="new-password" className=" text-primary">New Password</Label>
+          
           <div className="relative">
             <Input
               id="new-password"
