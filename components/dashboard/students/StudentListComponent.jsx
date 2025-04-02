@@ -80,13 +80,13 @@ export default function StudentListComponent() {
             accessorKey: "register_no",
             header: "Register No",
             id: "register_no",
-            size: 150,
+            size: 130,
         },
         {
             accessorKey: "name",
-            header: "Student Name",
+            header: "Name",
             id: "name",
-            size: 200,
+            size: 150,
         },
         {
             accessorKey: "class",
@@ -94,45 +94,45 @@ export default function StudentListComponent() {
             id: "class",
             size: 100,
         },
-        {
-            accessorKey: "department",
-            header: "Department",
-            id: "department",
-            size: 150,
-        },
-        {
-            accessorKey: "roll",
-            header: "Student Roll",
-            id: "roll",
-            size: 150,
-        },
+        // {
+        //     accessorKey: "department",
+        //     header: "Department",
+        //     id: "department",
+        //     size: 150,
+        // },
+        // {
+        //     accessorKey: "roll",
+        //     header: "Student Roll",
+        //     id: "roll",
+        //     size: 150,
+        // },
         {
             accessorKey: "type",
             header: "Student Type",
             id: "type",
-            size: 170,
+            size: 150,
         },
         {
             accessorKey: "admission_type",
             header: "Admission Type",
             id: "admission_type",
-            size: 180,
+            size: 170,
         },
-        {
-            accessorKey: "phone",
-            header: "Phone",
-            id: "phone",
-            size: 150,
-        },
-        {
-            accessorKey: "year",
-            header: "Year",
-            id: "year",
-            size: 100,
-        },
+        // {
+        //     accessorKey: "phone",
+        //     header: "Phone",
+        //     id: "phone",
+        //     size: 150,
+        // },
+        // {
+        //     accessorKey: "year",
+        //     header: "Year",
+        //     id: "year",
+        //     size: 100,
+        // },
         {
             header: "Action",
-            size: 220,
+            size: 120,
             id: "actions",
             cell: ({ row }) => (
                 <div className="flex gap-x-4">
@@ -142,7 +142,7 @@ export default function StudentListComponent() {
                         className="text-blue-500 hover:bg-blue-700"
                         onClick={() => handleEditStudent(row.original)}
                     >
-                        <Edit size={16} /> Edit
+                        <Edit size={16} />
                     </Button>
                     <Button
                         variant="ghost"
@@ -150,7 +150,7 @@ export default function StudentListComponent() {
                         className="text-red-500 hover:bg-red-700"
                         onClick={() => handleDeleteStudent(row.original)}
                     >
-                        <Trash size={16} /> Delete
+                        <Trash size={16} />
                     </Button>
                 </div>
             ),

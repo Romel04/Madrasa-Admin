@@ -78,7 +78,7 @@ export default function TeachersListComponent() {
             accessorKey: "name",
             header: "Name",
             id: "name",
-            size: 200,
+            size: 150,
         },
         {
             accessorKey: "designation",
@@ -96,42 +96,42 @@ export default function TeachersListComponent() {
             accessorKey: "phone",
             header: "Phone",
             id: "phone",
-            size: 150,
+            size: 120,
         },
-        {
-            accessorKey: "className",
-            header: "Class Name",
-            id: "className",
-            size: 150,
-        },
-        {
-            accessorKey: "department",
-            header: "Department",
-            id: "department",
-            size: 150,
-        },
-        {
-            accessorKey: "verified",
-            header: "Verified",
-            id: "verified",
-            size: 100,
-            cell: ({ row }) => (row.original.verified ? "Yes" : "No"),
-        },
-        {
-            accessorKey: "status",
-            header: "Status",
-            id: "status",
-            size: 100,
-        },
-        {
-            accessorKey: "subjectName",
-            header: "Subject Name",
-            id: "subjectName",
-            size: 150,
-        },
+        // {
+        //     accessorKey: "className",
+        //     header: "Class Name",
+        //     id: "className",
+        //     size: 150,
+        // },
+        // {
+        //     accessorKey: "department",
+        //     header: "Department",
+        //     id: "department",
+        //     size: 150,
+        // },
+        // {
+        //     accessorKey: "verified",
+        //     header: "Verified",
+        //     id: "verified",
+        //     size: 100,
+        //     cell: ({ row }) => (row.original.verified ? "Yes" : "No"),
+        // },
+        // {
+        //     accessorKey: "status",
+        //     header: "Status",
+        //     id: "status",
+        //     size: 100,
+        // },
+        // {
+        //     accessorKey: "subjectName",
+        //     header: "Subject Name",
+        //     id: "subjectName",
+        //     size: 150,
+        // },
         {
             header: "Action",
-            size: 220,
+            size: 120,
             id: "actions",
             cell: ({ row }) => (
                 <div className="flex gap-x-4">
@@ -141,7 +141,7 @@ export default function TeachersListComponent() {
                         className="text-blue-500 hover:bg-blue-700"
                         onClick={() => handleEditTeacher(row.original)}
                     >
-                        <Edit size={16} /> Edit
+                        <Edit size={16} />
                     </Button>
                     <Button
                         variant="ghost"
@@ -149,7 +149,7 @@ export default function TeachersListComponent() {
                         className="text-red-500 hover:bg-red-700"
                         onClick={() => handleDeleteTeacher(row.original)}
                     >
-                        <Trash size={16} /> Delete
+                        <Trash size={16} />
                     </Button>
                 </div>
             ),

@@ -15,6 +15,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useRouter } from 'next/navigation';
 import { Plus } from "lucide-react"; // Importing Plus icon
+import { MultiSelect } from '@/components/ui/multi-select';
 
 const CreateEditTeacherComponent = ({ initialData = {} }) => {
     const [formData, setFormData] = useState({
@@ -29,6 +30,9 @@ const CreateEditTeacherComponent = ({ initialData = {} }) => {
         blood_group: initialData?.blood_group || '',
         address: initialData?.address || '',
         description: initialData?.description || '',
+        classNames: [],
+        shiftNames: [],
+        subjectNames: [],
         profile_picture: null,
         academicRecords: [{ exam_title: '', passing_year: '', certificates: null }], // Array for academic records
         identityRecords: [{ id_card_type: '', identity_card_no: '', id_card: null }], // Array for identity records
@@ -56,6 +60,13 @@ const CreateEditTeacherComponent = ({ initialData = {} }) => {
         setFormData(prev => ({
             ...prev,
             [section]: updatedSection
+        }));
+    };
+
+    const handleMultiSelectChange = (value, field) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
         }));
     };
 
@@ -390,6 +401,54 @@ const CreateEditTeacherComponent = ({ initialData = {} }) => {
                     <Button type="button" onClick={addIdentityRecord} className="flex items-center">
                         <Plus className="mr-2" /> Add More Identity Record
                     </Button>
+                </div>
+
+                {/* Additional Information Section */}
+                <div className="bg-white shadow-md rounded-lg p-6">
+                    <h2 className="text-xl font-semibold mb-4">Additional Information</h2>
+                    <div className='flex gap-4'>
+                        <div className="mb-4 w-full">
+                        <Label htmlFor="classNames">Class Names</Label>
+                        <MultiSelect
+                            options={[
+                                { value: 'class1', label: 'Class 1' },
+                                { value: 'class2', label: 'Class 2' },
+                                { value: 'class3', label: 'Class 3' },
+                                // Add more options as needed
+                            ]}
+                            onValueChange={(value) => handleMultiSelectChange(value, 'classNames')}
+                            placeholder="Select Class Names"
+                        />
+                    </div>
+
+                    <div className="mb-4 w-full">
+                        <Label htmlFor="shiftNames">Shift Names</Label>
+                        <MultiSelect
+                            options={[
+                                { value: 'morning', label: 'Morning' },
+                                { value: 'afternoon', label: 'Afternoon' },
+                                { value: 'evening', label: 'Evening' },
+                                // Add more options as needed
+                            ]}
+                            onValueChange={(value) => handleMultiSelectChange(value, 'shiftNames')}
+                            placeholder="Select Shift Names"
+                        />
+                    </div>
+
+                    <div className="mb-4 w-full">
+                        <Label htmlFor="subjectNames">Subject Names</Label>
+                        <MultiSelect
+                            options={[
+                                { value: 'math', label: 'Mathematics' },
+                                { value: 'science', label: 'Science' },
+                                { value: 'english', label: 'English' },
+                                // Add more options as needed
+                            ]}
+                            onValueChange={(value) => handleMultiSelectChange(value, 'subjectNames')}
+                            placeholder="Select Subject Names"
+                        />
+                    </div></div>
+                    
                 </div>
 
                 <div className="flex justify-end space-x-4">
