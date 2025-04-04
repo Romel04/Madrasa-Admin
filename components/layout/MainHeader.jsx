@@ -72,6 +72,7 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
 
   const { name: pageNameKey, icon: PageIcon } = getPageName(pathname);
   const pageName = t(pageNameKey);
+  const subscriptionExpiryDate = "30-04-2025"; // Example expiry date
   
   return (
     <header className={`sm:fixed top-4 z-20 ${
@@ -103,6 +104,11 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
               {pageName}
             </h1>
           </div>
+        </div>
+
+        <div className="text-red-500 text-center text-sm hidden sm:block">
+          <p>Your subscription will expire on {subscriptionExpiryDate}.</p>
+          <p>আপনার সাবস্ক্রিপশন {subscriptionExpiryDate} তারিখে শেষ হবে।</p>
         </div>
 
         {/* Right section: Search, language switch, notifications, user menu */}

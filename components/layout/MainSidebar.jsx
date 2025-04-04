@@ -24,6 +24,7 @@ import {
   Briefcase,
   Home,
   HelpCircle,
+  CalendarSync,
 } from "lucide-react";
 import {
   Tooltip,
@@ -89,7 +90,7 @@ export default function MainSidebar({ isCollapsed, toggleSidebar }) {
     {
       nameKey: "subscription",
       href: "/subscription",
-      icon: Book,
+      icon: CalendarSync ,
     },
     {
       nameKey: "mosque",
