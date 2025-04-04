@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Home } from 'lucide-react';
 
 const ComingSoon = () => {
-    const [countdown, setCountdown] = useState(100);
+    const [countdown, setCountdown] = useState(10);
 
     useEffect(() => {
         if (countdown > 0) {
