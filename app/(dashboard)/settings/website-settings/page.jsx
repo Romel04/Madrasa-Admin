@@ -2,10 +2,10 @@ import WebsiteSettingsComponent from '@/components/dashboard/settings/WebsiteSet
 import AcademicSettingsComponent from '@/components/dashboard/settings/WebsiteSettingsComponent'
 import React from 'react'
 
-const AcademicSettings = () => {
+const WebsiteSettings = () => {
   return (
     <WebsiteSettingsComponent/>
   )
 }
 
-export default AcademicSettings
+export default WebsiteSettings

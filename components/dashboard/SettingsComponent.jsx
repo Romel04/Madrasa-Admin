@@ -70,7 +70,7 @@ export default function SettingsComponent() {
         </TabsContent>
 
         <TabsContent value="website">
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-4 gap-4">
             <Card
               className={`bg-gradient-to-r from-purple-500 to-indigo-500 backdrop-blur-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer`}
               onClick={() => handleCardClick("website-settings")}
@@ -78,6 +78,20 @@ export default function SettingsComponent() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-white text-[15px]">{t('websiteSettings')}</CardTitle>
+                  <Settings className="h-6 w-6 text-white" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* <p className="text-white">{t('academicSettingsBangla')}</p> */}
+              </CardContent>
+            </Card>
+            <Card
+              className={`bg-gradient-to-r from-purple-500 to-black/20 backdrop-blur-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer`}
+              onClick={() => handleCardClick("page-settings")}
+            >
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-white text-[15px]">{t('pageSettings')}</CardTitle>
                   <Settings className="h-6 w-6 text-white" />
                 </div>
               </CardHeader>

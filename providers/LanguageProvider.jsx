@@ -77,6 +77,7 @@ const translations = {
     websiteSettings: "Website Setting",
     security: "Security",
     profileSettings : "Profile Settings",
+    pageSettings: "Page Settings" , 
 
     //Dashboard
     totalStudents: "Total Students",
@@ -144,6 +145,7 @@ const translations = {
     admissionFee: "ভর্তি ফি",
     smsSettings: "এসএমএস সেটিংস",
     websiteSettings: "ওয়েবসাইট সেটিংস",
+    pageSettings: "পেজ সেটিংস" , 
     security: "নিরাপত্তা",
     profileSettings : "প্রোফাইল সেটিংস",
     subscription : "সাবস্ক্রিপশন",
