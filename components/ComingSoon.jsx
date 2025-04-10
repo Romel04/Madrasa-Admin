@@ -23,7 +23,7 @@ const ComingSoon = () => {
             alignItems: 'center',
             color: 'white',
             fontFamily: 'Arial, sans-serif',
-            backgroundImage: 'url("/assets/bg2.jpg")', // Replace with your image URL
+            backgroundImage: 'url("/assets/bannerBg.png")', // Replace with your image URL
             backgroundSize: 'cover',
             backgroundPosition: 'center',
         }}>

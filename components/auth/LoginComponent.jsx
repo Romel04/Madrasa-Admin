@@ -55,15 +55,15 @@ export default function LoginComponent() {
     <div 
       className="flex min-h-screen items-center justify-center p-4"
       style={{ 
-        backgroundImage: "url('/assets/loginBg1.jpg')", // Replace with your image path
+        backgroundImage: "url('/assets/bannerBg.png')", // Replace with your image path
         backgroundSize: "cover",
         backgroundPosition: "center"
       }}
     >
       <Card className="w-full max-w-md shadow-lg bg-white bg-opacity-30 backdrop-blur-md rounded-lg border border-white border-opacity-20">
         <CardHeader className="space-y-4 text-center">
-          <CardTitle className="text-2xl font-bold text-primary">Admin Login</CardTitle>
-          <CardDescription className=" text-primary">
+          <CardTitle className="text-2xl font-bold text-white">Admin Login</CardTitle>
+          <CardDescription className=" text-white">
             Enter your credentials to access the admin dashboard
           </CardDescription>
         </CardHeader>
@@ -76,7 +76,7 @@ export default function LoginComponent() {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="phone" className=" text-primary">Phone Number</Label>
+              <Label htmlFor="phone" className=" text-white">Phone Number</Label>
               <Input
                 id="phone"
                 name="phone"
@@ -86,12 +86,12 @@ export default function LoginComponent() {
                 onChange={handleChange}
                 required
                 autoComplete="tel"
-                className="w-full text-primary"
+                className="w-full text-white"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className=" text-primary">Password</Label>
+              <Label htmlFor="password" className=" text-white">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -102,7 +102,7 @@ export default function LoginComponent() {
                   onChange={handleChange}
                   required
                   autoComplete="current-password"
-                  className="w-full pr-10 text-primary"
+                  className="w-full pr-10 text-white"
                 />
                 <button
                   type="button"
