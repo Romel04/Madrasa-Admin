@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -15,33 +16,26 @@ import { Separator } from "@/components/ui/separator";
 const WebsiteCMSComponent = () => {
   const router = useRouter();
 
-  // Header Form Data
-  const [headerData, setHeaderData] = useState({
-    logo: null,
-    name: "",
-    address: "",
+  // Combined General Info Data (Header & Footer)
+  const [generalData, setGeneralData] = useState({
+    header: {
+      logo: null,
+      name: "",
+    },
+    footer: {
+      logo: null,
+      description: "",
+    },
+    contact: {
+      address: "",
+      phone: "",
+      email: "",
+    },
     socialLinks: {
       facebook: "",
       instagram: "",
       twitter: "",
-    },
-    phone: "",
-    email: "",
-  });
-
-  // Footer Form Data
-  const [footerData, setFooterData] = useState({
-    logo: null,
-    name: "",
-    description: "",
-    socialLinks: {
-      facebook: "",
-      instagram: "",
-      twitter: "",
-    },
-    email: "",
-    phone: "",
-    address: "",
+    }
   });
 
   // Banner Section Data
@@ -79,10 +73,15 @@ const WebsiteCMSComponent = () => {
   const handleFileChange = (e, section, field, index = null) => {
     const file = e.target.files[0];
 
-    if (section === "header") {
-      setHeaderData({ ...headerData, [field]: file });
-    } else if (section === "footer") {
-      setFooterData({ ...footerData, [field]: file });
+    if (section === "general") {
+      const [area, subfield] = field.split('.');
+      setGeneralData({
+        ...generalData,
+        [area]: {
+          ...generalData[area],
+          [subfield]: file
+        }
+      });
     } else if (section === "banner") {
       if (field === "backgroundImage") {
         setBannerData({ ...bannerData, backgroundImage: file });
@@ -91,12 +90,11 @@ const WebsiteCMSComponent = () => {
         updatedItems[index].backgroundImage = file;
         setBannerData({ ...bannerData, carouselItems: updatedItems });
       }
-    } else if (section === "leaders" && index !== null) {
+    } else if (section === "message" && index !== null) {
       const updatedItems = [...leadersData.carouselItems];
       updatedItems[index].image = file;
       setLeadersData({ ...leadersData, carouselItems: updatedItems });
     } else if (section === "gallery") {
-      // Handle multiple file uploads for gallery
       const files = Array.from(e.target.files);
       setGalleryData({ ...galleryData, images: [...galleryData.images, ...files] });
     }
@@ -104,29 +102,31 @@ const WebsiteCMSComponent = () => {
 
   // Handle text input changes
   const handleInputChange = (e, section, field = null, subfield = null, index = null) => {
-    if (section === "header") {
-      if (subfield) {
-        setHeaderData({
-          ...headerData,
-          [field]: { ...headerData[field], [subfield]: e.target.value }
+    if (section === "general") {
+      if (field && subfield) {
+        setGeneralData({
+          ...generalData,
+          [field]: {
+            ...generalData[field],
+            [subfield]: e.target.value
+          }
         });
-      } else {
-        setHeaderData({ ...headerData, [e.target.name]: e.target.value });
-      }
-    } else if (section === "footer") {
-      if (subfield) {
-        setFooterData({
-          ...footerData,
-          [field]: { ...footerData[field], [subfield]: e.target.value }
+      } else if (e.target.name.includes('.')) {
+        // Handle nested fields like "contact.email"
+        const [area, subfield] = e.target.name.split('.');
+        setGeneralData({
+          ...generalData,
+          [area]: {
+            ...generalData[area],
+            [subfield]: e.target.value
+          }
         });
-      } else {
-        setFooterData({ ...footerData, [e.target.name]: e.target.value });
       }
     } else if (section === "banner" && index !== null) {
       const updatedItems = [...bannerData.carouselItems];
       updatedItems[index].title = e.target.value;
       setBannerData({ ...bannerData, carouselItems: updatedItems });
-    } else if (section === "leaders" && index !== null) {
+    } else if (section === "message" && index !== null) {
       const updatedItems = [...leadersData.carouselItems];
       updatedItems[index][field] = e.target.value;
       setLeadersData({ ...leadersData, carouselItems: updatedItems });
@@ -172,10 +172,15 @@ const WebsiteCMSComponent = () => {
 
   // Remove file
   const handleRemoveFile = (section, field, index = null) => {
-    if (section === "header") {
-      setHeaderData({ ...headerData, [field]: null });
-    } else if (section === "footer") {
-      setFooterData({ ...footerData, [field]: null });
+    if (section === "general") {
+      const [area, subfield] = field.split('.');
+      setGeneralData({
+        ...generalData,
+        [area]: {
+          ...generalData[area],
+          [subfield]: null
+        }
+      });
     } else if (section === "banner") {
       if (field === "backgroundImage") {
         setBannerData({ ...bannerData, backgroundImage: null });
@@ -184,7 +189,7 @@ const WebsiteCMSComponent = () => {
         updatedItems[index].backgroundImage = null;
         setBannerData({ ...bannerData, carouselItems: updatedItems });
       }
-    } else if (section === "leaders" && index !== null) {
+    } else if (section === "message" && index !== null) {
       const updatedItems = [...leadersData.carouselItems];
       updatedItems[index].image = null;
       setLeadersData({ ...leadersData, carouselItems: updatedItems });
@@ -203,12 +208,11 @@ const WebsiteCMSComponent = () => {
     e.preventDefault();
     // Collect all form data
     const formData = {
-      header: headerData,
-      footer: footerData,
+      general: generalData,
       sections: {
         banner: bannerData,
         aboutUs: aboutUsData,
-        leaders: leadersData,
+        message: leadersData,
         gallery: galleryData,
         video: videoData
       }
@@ -225,7 +229,7 @@ const WebsiteCMSComponent = () => {
         <div className="flex items-center gap-x-4">
           <div>
             <p
-              className="cursor-pointer text-accent  flex items-center gap-x-2 bg-gray-200 rounded-full"
+              className="cursor-pointer text-accent flex items-center gap-x-2 bg-gray-200 rounded-full"
               onClick={() => {
                 router.back();
               }}
@@ -238,266 +242,183 @@ const WebsiteCMSComponent = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <Tabs defaultValue="header" className="w-full">
-          <TabsList className="grid grid-cols-3 sm:grid-cols-7 mb-6">
-            <TabsTrigger value="header">Header</TabsTrigger>
-            <TabsTrigger value="footer">Footer</TabsTrigger>
+        <Tabs defaultValue="general" className="w-full">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-6 mb-6">
+            <TabsTrigger value="general">General Info</TabsTrigger>
             <TabsTrigger value="banner">Banner</TabsTrigger>
             <TabsTrigger value="aboutUs">About Us</TabsTrigger>
-            <TabsTrigger value="leaders">Leaders</TabsTrigger>
+            <TabsTrigger value="message">Message</TabsTrigger>
             <TabsTrigger value="gallery">Gallery</TabsTrigger>
             <TabsTrigger value="video">Video</TabsTrigger>
           </TabsList>
 
-          {/* Header Section */}
-          <TabsContent value="header">
+          {/* General Info Section (Combined Header & Footer) */}
+          <TabsContent value="general">
             <Card>
               <CardHeader>
-                <CardTitle>Header Settings</CardTitle>
-                <CardDescription>Configure your website header section</CardDescription>
+                <CardTitle>General Information</CardTitle>
+                <CardDescription>Configure website identity, contact details and social links</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="header-logo" className="block font-medium mb-2">
-                      Logo
-                    </Label>
-                    <Input
-                      id="header-logo"
-                      type="file"
-                      onChange={(e) => handleFileChange(e, "header", "logo")}
-                      className="border rounded-md"
-                    />
-                    {headerData.logo && (
-                      <div className="flex items-center mt-2">
-                        <img src={URL.createObjectURL(headerData.logo)} alt="Logo Preview" className="h-16 w-16 object-cover mr-2" />
-                        <Button variant="destructive" size="sm" onClick={() => handleRemoveFile("header", "logo")}>
-                          <X size={16} className="mr-1" /> Remove
-                        </Button>
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium mb-4">Website Identity</h3>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div>
+                      <div className="mb-4">
+                        <Label htmlFor="header-logo" className="block font-medium mb-2">
+                          Header Logo
+                        </Label>
+                        <Input
+                          id="header-logo"
+                          type="file"
+                          onChange={(e) => handleFileChange(e, "general", "header.logo")}
+                          className="border rounded-md"
+                        />
+                        {generalData.header.logo && (
+                          <div className="flex items-center mt-2">
+                            <img src={URL.createObjectURL(generalData.header.logo)} alt="Logo Preview" className="h-16 w-16 object-cover mr-2" />
+                            <Button variant="destructive" size="sm" onClick={() => handleRemoveFile("general", "header.logo")}>
+                              <X size={16} className="mr-1" /> Remove
+                            </Button>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div>
-                    <Label htmlFor="header-name" className="block font-medium mb-2">
-                      Website Name
-                    </Label>
-                    <Input
-                      id="header-name"
-                      name="name"
-                      value={headerData.name}
-                      onChange={(e) => handleInputChange(e, "header")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="header-address" className="block font-medium mb-2">
-                      Address
-                    </Label>
-                    <Textarea
-                      id="header-address"
-                      name="address"
-                      value={headerData.address}
-                      onChange={(e) => handleInputChange(e, "header")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="header-phone" className="block font-medium mb-2">
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="header-phone"
-                      name="phone"
-                      value={headerData.phone}
-                      onChange={(e) => handleInputChange(e, "header")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="header-email" className="block font-medium mb-2">
-                      Email
-                    </Label>
-                    <Input
-                      id="header-email"
-                      name="email"
-                      value={headerData.email}
-                      onChange={(e) => handleInputChange(e, "header")}
-                      className="border rounded-md"
-                    />
+                      <div>
+                        <Label htmlFor="website-name" className="block font-medium mb-2">
+                          Website Name
+                        </Label>
+                        <Input
+                          id="website-name"
+                          name="header.name"
+                          value={generalData.header.name}
+                          onChange={(e) => handleInputChange(e, "general")}
+                          className="border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="mb-4">
+                        <Label htmlFor="footer-logo" className="block font-medium mb-2">
+                          Footer Logo (Optional)
+                        </Label>
+                        <Input
+                          id="footer-logo"
+                          type="file"
+                          onChange={(e) => handleFileChange(e, "general", "footer.logo")}
+                          className="border rounded-md"
+                        />
+                        {generalData.footer.logo && (
+                          <div className="flex items-center mt-2">
+                            <img src={URL.createObjectURL(generalData.footer.logo)} alt="Logo Preview" className="h-16 w-16 object-cover mr-2" />
+                            <Button variant="destructive" size="sm" onClick={() => handleRemoveFile("general", "footer.logo")}>
+                              <X size={16} className="mr-1" /> Remove
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <Label htmlFor="footer-description" className="block font-medium mb-2">
+                          Website Description (For Footer)
+                        </Label>
+                        <Textarea
+                          id="footer-description"
+                          name="footer.description"
+                          value={generalData.footer.description}
+                          onChange={(e) => handleInputChange(e, "general")}
+                          className="border rounded-md"
+                          rows={3}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="mt-6">
+                <Separator className="my-6" />
+                
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium mb-4">Contact Information</h3>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <Label htmlFor="contact-address" className="block font-medium mb-2">
+                        Address
+                      </Label>
+                      <Textarea
+                        id="contact-address"
+                        name="contact.address"
+                        value={generalData.contact.address}
+                        onChange={(e) => handleInputChange(e, "general")}
+                        className="border rounded-md"
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="contact-email" className="block font-medium mb-2">
+                        Email
+                      </Label>
+                      <Input
+                        id="contact-email"
+                        name="contact.email"
+                        value={generalData.contact.email}
+                        onChange={(e) => handleInputChange(e, "general")}
+                        className="border rounded-md"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="contact-phone" className="block font-medium mb-2">
+                        Phone Number
+                      </Label>
+                      <Input
+                        id="contact-phone"
+                        name="contact.phone"
+                        value={generalData.contact.phone}
+                        onChange={(e) => handleInputChange(e, "general")}
+                        className="border rounded-md"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator className="my-6" />
+
+                <div>
                   <h3 className="text-lg font-medium mb-4">Social Links</h3>
                   <div className="grid sm:grid-cols-3 gap-4">
                     <div>
-                      <Label htmlFor="header-facebook" className="block font-medium mb-2">
+                      <Label htmlFor="social-facebook" className="block font-medium mb-2">
                         Facebook
                       </Label>
                       <Input
-                        id="header-facebook"
-                        value={headerData.socialLinks.facebook}
-                        onChange={(e) => handleInputChange(e, "header", "socialLinks", "facebook")}
+                        id="social-facebook"
+                        name="socialLinks.facebook"
+                        value={generalData.socialLinks.facebook}
+                        onChange={(e) => handleInputChange(e, "general")}
                         className="border rounded-md"
                         placeholder="https://facebook.com/..."
                       />
                     </div>
                     <div>
-                      <Label htmlFor="header-instagram" className="block font-medium mb-2">
+                      <Label htmlFor="social-instagram" className="block font-medium mb-2">
                         Instagram
                       </Label>
                       <Input
-                        id="header-instagram"
-                        value={headerData.socialLinks.instagram}
-                        onChange={(e) => handleInputChange(e, "header", "socialLinks", "instagram")}
+                        id="social-instagram"
+                        name="socialLinks.instagram"
+                        value={generalData.socialLinks.instagram}
+                        onChange={(e) => handleInputChange(e, "general")}
                         className="border rounded-md"
                         placeholder="https://instagram.com/..."
                       />
                     </div>
                     <div>
-                      <Label htmlFor="header-twitter" className="block font-medium mb-2">
+                      <Label htmlFor="social-twitter" className="block font-medium mb-2">
                         Twitter
                       </Label>
                       <Input
-                        id="header-twitter"
-                        value={headerData.socialLinks.twitter}
-                        onChange={(e) => handleInputChange(e, "header", "socialLinks", "twitter")}
-                        className="border rounded-md"
-                        placeholder="https://twitter.com/..."
-                      />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Footer Section */}
-          <TabsContent value="footer">
-            <Card>
-              <CardHeader>
-                <CardTitle>Footer Settings</CardTitle>
-                <CardDescription>Configure your website footer section</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="footer-logo" className="block font-medium mb-2">
-                      Logo
-                    </Label>
-                    <Input
-                      id="footer-logo"
-                      type="file"
-                      onChange={(e) => handleFileChange(e, "footer", "logo")}
-                      className="border rounded-md"
-                    />
-                    {footerData.logo && (
-                      <div className="flex items-center mt-2">
-                        <img src={URL.createObjectURL(footerData.logo)} alt="Logo Preview" className="h-16 w-16 object-cover mr-2" />
-                        <Button variant="destructive" size="sm" onClick={() => handleRemoveFile("footer", "logo")}>
-                          <X size={16} className="mr-1" /> Remove
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <Label htmlFor="footer-name" className="block font-medium mb-2">
-                      Website Name
-                    </Label>
-                    <Input
-                      id="footer-name"
-                      name="name"
-                      value={footerData.name}
-                      onChange={(e) => handleInputChange(e, "footer")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <Label htmlFor="footer-description" className="block font-medium mb-2">
-                      Description
-                    </Label>
-                    <Textarea
-                      id="footer-description"
-                      name="description"
-                      value={footerData.description}
-                      onChange={(e) => handleInputChange(e, "footer")}
-                      className="border rounded-md"
-                      rows={4}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="footer-email" className="block font-medium mb-2">
-                      Email
-                    </Label>
-                    <Input
-                      id="footer-email"
-                      name="email"
-                      value={footerData.email}
-                      onChange={(e) => handleInputChange(e, "footer")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="footer-phone" className="block font-medium mb-2">
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="footer-phone"
-                      name="phone"
-                      value={footerData.phone}
-                      onChange={(e) => handleInputChange(e, "footer")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <Label htmlFor="footer-address" className="block font-medium mb-2">
-                      Address
-                    </Label>
-                    <Textarea
-                      id="footer-address"
-                      name="address"
-                      value={footerData.address}
-                      onChange={(e) => handleInputChange(e, "footer")}
-                      className="border rounded-md"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium mb-4">Social Links</h3>
-                  <div className="grid sm:grid-cols-3 gap-4">
-                    <div>
-                      <Label htmlFor="footer-facebook" className="block font-medium mb-2">
-                        Facebook
-                      </Label>
-                      <Input
-                        id="footer-facebook"
-                        value={footerData.socialLinks.facebook}
-                        onChange={(e) => handleInputChange(e, "footer", "socialLinks", "facebook")}
-                        className="border rounded-md"
-                        placeholder="https://facebook.com/..."
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="footer-instagram" className="block font-medium mb-2">
-                        Instagram
-                      </Label>
-                      <Input
-                        id="footer-instagram"
-                        value={footerData.socialLinks.instagram}
-                        onChange={(e) => handleInputChange(e, "footer", "socialLinks", "instagram")}
-                        className="border rounded-md"
-                        placeholder="https://instagram.com/..."
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="footer-twitter" className="block font-medium mb-2">
-                        Twitter
-                      </Label>
-                      <Input
-                        id="footer-twitter"
-                        value={footerData.socialLinks.twitter}
-                        onChange={(e) => handleInputChange(e, "footer", "socialLinks", "twitter")}
+                        id="social-twitter"
+                        name="socialLinks.twitter"
+                        value={generalData.socialLinks.twitter}
+                        onChange={(e) => handleInputChange(e, "general")}
                         className="border rounded-md"
                         placeholder="https://twitter.com/..."
                       />
@@ -626,7 +547,7 @@ const WebsiteCMSComponent = () => {
           </TabsContent>
 
           {/* Leaders Section */}
-          <TabsContent value="leaders">
+          <TabsContent value="message">
             <Card>
               <CardHeader>
                 <CardTitle>Messages from Leaders</CardTitle>

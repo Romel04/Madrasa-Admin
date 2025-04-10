@@ -30,6 +30,7 @@ const translations = {
     mosque: "Mosque",
     helpline: "Helpline",
     subscription : "Subscription package",
+    expirationMessage: "Your subscription will expire on" ,
     
     // Common UI elements
     search: "Search",
@@ -100,6 +101,7 @@ const translations = {
     library: "লাইব্রেরী",
     mosque: "মসজিদ",
     helpline: "হেল্পলাইন",
+    expirationMessage: "আপনার সাবস্ক্রিপশন শেষ হবে" ,
     
     // Common UI elements
     search: "অনুসন্ধান",

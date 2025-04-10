@@ -69,7 +69,7 @@ const WebsiteSettingsComponent = () => {
               className="border border-gray-300 rounded-md p-2"
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="webAddress" className="block font-medium text-gray-700 mb-2">
               Web Address
             </label>
@@ -80,7 +80,7 @@ const WebsiteSettingsComponent = () => {
               onChange={handleInputChange}
               className="border border-gray-300 rounded-md p-2"
             />
-          </div>
+          </div> */}
           <div>
             <label htmlFor="email" className="block font-medium text-gray-700 mb-2">
               Email

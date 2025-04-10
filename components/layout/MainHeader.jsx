@@ -106,8 +106,8 @@ export default function MainHeader({ isCollapsed, toggleSidebar }) {
           </div>
         </div>
 
-        <div className="text-red-500 text-center text-sm hidden sm:block">
-          <p>Your subscription will expire on {subscriptionExpiryDate}.</p>
+        <div className="text-red-500 font-black text-center text-md hidden sm:block">
+          {/* <p>Your subscription will expire on {subscriptionExpiryDate}.</p> */}
           <p>আপনার সাবস্ক্রিপশন {subscriptionExpiryDate} তারিখে শেষ হবে।</p>
         </div>
 
